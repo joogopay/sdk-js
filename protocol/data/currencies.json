@@ -1,0 +1,64 @@
+{
+  "currencies": [
+    {
+      "name": "BRL",
+      "value": "BRL"
+    },
+    {
+      "name": "ARS",
+      "value": "ARS"
+    },
+    {
+      "name": "MXN",
+      "value": "MXN"
+    },
+    {
+      "name": "COP",
+      "value": "COP"
+    },
+    {
+      "name": "CLP",
+      "value": "CLP"
+    },
+    {
+      "name": "PEN",
+      "value": "PEN"
+    },
+    {
+      "name": "TRY",
+      "value": "TRY"
+    },
+    {
+      "name": "RUB",
+      "value": "RUB"
+    },
+    {
+      "name": "USD",
+      "value": "USD"
+    },
+    {
+      "name": "BDT",
+      "value": "BDT"
+    },
+    {
+      "name": "IDR",
+      "value": "IDR"
+    },
+    {
+      "name": "PHP",
+      "value": "PHP"
+    },
+    {
+      "name": "PKR",
+      "value": "PKR"
+    },
+    {
+      "name": "THB",
+      "value": "THB"
+    },
+    {
+      "name": "INR",
+      "value": "INR"
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "$comment": [
+    "Client-side validation vectors for the top-level fields of a create pay-in request. base is a valid request; each case shallow-merges override into it and calls CreatePayment.",
+    "When expect=reject, reason is a language-independent enum: missing_required_field (with field) / invalid_amount / invalid_webhook_url;",
+    "Go matches on sentinel errors, the other languages on error-message fragments.",
+    "Cases with untyped=true rely on dynamic typing (e.g. amount passed as a JSON number); Go's type system rejects them at compile time, so Go skips them.",
+    "Rules come from protocol/data/request-rules.json; change the rules there first, then these vectors, and all five language test suites go red or green together."
+  ],
+  "direction": "payment",
+  "base": {
+    "merchantOrderNo": "M1",
+    "currency": "BRL",
+    "amount": "100.50",
+    "paymentMethod": {
+      "code": "PIX"
+    },
+    "webhookUrl": "https://m.example.com/hook"
+  },
+  "cases": [
+    {
+      "name": "missing merchantOrderNo",
+      "override": {
+        "merchantOrderNo": "  "
+      },
+      "expect": "reject",
+      "reason": "missing_required_field",
+      "field": "merchantOrderNo"
+    },
+    {
+      "name": "missing currency",
+      "override": {
+        "currency": ""
+      },
+      "expect": "reject",
+      "reason": "missing_required_field",
+      "field": "currency"
+    },
+    {
+      "name": "missing amount",
+      "override": {
+        "amount": ""
+      },
+      "expect": "reject",
+      "reason": "missing_required_field",
+      "field": "amount"
+    },
+    {
+      "name": "missing webhookUrl",
+      "override": {
+        "webhookUrl": ""
+      },
+      "expect": "reject",
+      "reason": "missing_required_field",
+      "field": "webhookUrl"
+    },
+    {
+      "name": "amount is a JSON number (the gateway expects a string and rejects a number)",
+      "override": {
+        "amount": 100.5
+      },
+      "expect": "reject",
+      "reason": "invalid_amount",
+      "untyped": true
+    },
+    {
+      "name": "amount with thousands separator",
+      "override": {
+        "amount": "1,000.00"
+      },
+      "expect": "reject",
+      "reason": "invalid_amount"
+    },
+    {
+      "name": "amount with leading zero",
+      "override": {
+        "amount": "0100"
+      },
+      "expect": "reject",
+      "reason": "invalid_amount"
+    },
+    {
+      "name": "negative amount",
+      "override": {
+        "amount": "-1.00"
+      },
+      "expect": "reject",
+      "reason": "invalid_amount"
+    },
+    {
+      "name": "amount with whitespace",
+      "override": {
+        "amount": " 1.00"
+      },
+      "expect": "reject",
+      "reason": "invalid_amount"
+    },
+    {
+      "name": "amount in scientific notation",
+      "override": {
+        "amount": "1e3"
+      },
+      "expect": "reject",
+      "reason": "invalid_amount"
+    },
+    {
+      "name": "zero amount",
+      "override": {
+        "amount": "0.00"
+      },
+      "expect": "reject",
+      "reason": "invalid_amount"
+    },
+    {
+      "name": "amount with three decimals (exceeds DECIMAL(18,2))",
+      "override": {
+        "amount": "1.234"
+      },
+      "expect": "reject",
+      "reason": "invalid_amount"
+    },
+    {
+      "name": "amount with 17 integer digits (exceeds DECIMAL(18,2))",
+      "override": {
+        "amount": "12345678901234567"
+      },
+      "expect": "reject",
+      "reason": "invalid_amount"
+    },
+    {
+      "name": "webhookUrl without scheme",
+      "override": {
+        "webhookUrl": "m.example.com/hook"
+      },
+      "expect": "reject",
+      "reason": "invalid_webhook_url"
+    },
+    {
+      "name": "webhookUrl is http (the gateway requires https://)",
+      "override": {
+        "webhookUrl": "http://m.example.com/hook"
+      },
+      "expect": "reject",
+      "reason": "invalid_webhook_url"
+    },
+    {
+      "name": "integer amount",
+      "override": {
+        "amount": "1"
+      },
+      "expect": "accept"
+    },
+    {
+      "name": "amount at the smallest unit",
+      "override": {
+        "amount": "0.01"
+      },
+      "expect": "accept"
+    },
+    {
+      "name": "amount with one decimal",
+      "override": {
+        "amount": "0.5"
+      },
+      "expect": "accept"
+    },
+    {
+      "name": "amount at the limit: 16 integer digits + 2 decimals",
+      "override": {
+        "amount": "1234567890123456.99"
+      },
+      "expect": "accept"
+    },
+    {
+      "name": "webhookUrl with uppercase scheme",
+      "override": {
+        "webhookUrl": "HTTPS://m.example.com/hook"
+      },
+      "expect": "accept"
+    }
+  ]
+}

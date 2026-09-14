@@ -1,0 +1,64 @@
+{
+  "countries": [
+    {
+      "name": "BR",
+      "value": "BR"
+    },
+    {
+      "name": "AR",
+      "value": "AR"
+    },
+    {
+      "name": "MX",
+      "value": "MX"
+    },
+    {
+      "name": "CO",
+      "value": "CO"
+    },
+    {
+      "name": "CL",
+      "value": "CL"
+    },
+    {
+      "name": "PE",
+      "value": "PE"
+    },
+    {
+      "name": "TR",
+      "value": "TR"
+    },
+    {
+      "name": "RU",
+      "value": "RU"
+    },
+    {
+      "name": "US",
+      "value": "US"
+    },
+    {
+      "name": "BD",
+      "value": "BD"
+    },
+    {
+      "name": "ID",
+      "value": "ID"
+    },
+    {
+      "name": "PH",
+      "value": "PH"
+    },
+    {
+      "name": "PK",
+      "value": "PK"
+    },
+    {
+      "name": "TH",
+      "value": "TH"
+    },
+    {
+      "name": "IN",
+      "value": "IN"
+    }
+  ]
+}

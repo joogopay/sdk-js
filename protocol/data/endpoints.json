@@ -1,0 +1,137 @@
+{
+  "endpoints": [
+    {
+      "sdk_method": "CreatePayment",
+      "http": "POST",
+      "path": "/api/v1/payments",
+      "signed": true,
+      "encryptable_body": true,
+      "request": "CreatePaymentReq",
+      "response": "PaymentOrder"
+    },
+    {
+      "sdk_method": "QueryPaymentByOrderNo",
+      "http": "GET",
+      "path": "/api/v1/payments",
+      "query": [
+        "orderNo"
+      ],
+      "signed": true,
+      "encryptable_body": false,
+      "request": "QueryOrderReq",
+      "response": "PaymentOrder"
+    },
+    {
+      "sdk_method": "QueryPaymentByMerchantOrderNo",
+      "http": "GET",
+      "path": "/api/v1/payments",
+      "query": [
+        "merchantOrderNo"
+      ],
+      "signed": true,
+      "encryptable_body": false,
+      "request": "QueryOrderReq",
+      "response": "PaymentOrder"
+    },
+    {
+      "sdk_method": "CreatePayout",
+      "http": "POST",
+      "path": "/api/v1/payouts",
+      "signed": true,
+      "encryptable_body": true,
+      "request": "CreatePayoutReq",
+      "response": "PayoutOrder"
+    },
+    {
+      "sdk_method": "QueryPayoutByOrderNo",
+      "http": "GET",
+      "path": "/api/v1/payouts",
+      "query": [
+        "orderNo"
+      ],
+      "signed": true,
+      "encryptable_body": false,
+      "request": "QueryOrderReq",
+      "response": "PayoutOrder"
+    },
+    {
+      "sdk_method": "QueryPayoutByMerchantOrderNo",
+      "http": "GET",
+      "path": "/api/v1/payouts",
+      "query": [
+        "merchantOrderNo"
+      ],
+      "signed": true,
+      "encryptable_body": false,
+      "request": "QueryOrderReq",
+      "response": "PayoutOrder"
+    },
+    {
+      "sdk_method": "GetBalance",
+      "http": "GET",
+      "path": "/api/v1/balances",
+      "query": [
+        "currency"
+      ],
+      "signed": true,
+      "encryptable_body": false,
+      "request": "GetBalanceReq",
+      "response": "Balance"
+    },
+    {
+      "sdk_method": "GetPayoutReceipt",
+      "http": "GET",
+      "path": "/api/v1/payouts/{orderNo}/receipt",
+      "path_params": [
+        "orderNo"
+      ],
+      "signed": true,
+      "encryptable_body": false,
+      "request": "OrderNoReq",
+      "response": "PayoutReceipt"
+    },
+    {
+      "sdk_method": "GetUSDRate",
+      "http": "GET",
+      "path": "/api/v1/usd-rates",
+      "query": [
+        "currency",
+        "payMethod"
+      ],
+      "signed": true,
+      "encryptable_body": false,
+      "request": "GetUsdRateReq",
+      "response": "USDRate"
+    },
+    {
+      "sdk_method": "GetPaymentCheckout",
+      "http": "GET",
+      "path": "/api/v1/payment/checkout",
+      "query": [
+        "orderNo"
+      ],
+      "signed": false,
+      "encryptable_body": false,
+      "request": "GetPaymentCheckoutReq",
+      "response": "PaymentCheckout"
+    },
+    {
+      "sdk_method": "SubmitPaymentTradeNo",
+      "http": "POST",
+      "path": "/api/v1/payment/submitTradeNo",
+      "signed": false,
+      "encryptable_body": false,
+      "request": "SubmitPaymentTradeNoReq",
+      "response": "SubmitTradeNoResult"
+    },
+    {
+      "sdk_method": "AddPaymentExtraInfo",
+      "http": "POST",
+      "path": "/api/v1/payment/addExtraInfo",
+      "signed": false,
+      "encryptable_body": false,
+      "request": "AddPaymentExtraInfoReq",
+      "response": "AddExtraInfoResult"
+    }
+  ]
+}

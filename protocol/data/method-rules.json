@@ -1,0 +1,312 @@
+{
+  "$comment": [
+    "Method codes and required extra fields of the merchant API; the single source of truth shared by the five language SDKs.",
+    "Extracted from the gateway's payment and payout validators and checked by hand.",
+    "An empty codes list means the gateway has no method-code allowlist for that currency; the SDK must not reject on that basis.",
+    "required fields are always mandatory; byMethod lists the extra fields a specific method code requires.",
+    "The SDK only checks structure and presence. Format checks (phone-number length, email, IFSC length, ...) stay with the gateway:",
+    "a copy in the SDK would drift from the gateway, and merchants could only get the fix by waiting for an SDK release."
+  ],
+  "rules": {
+    "payment": {
+      "ARS": {
+        "codes": [],
+        "required": [
+          "documentNumber",
+          "documentType",
+          "email",
+          "firstName",
+          "lastName"
+        ],
+        "byMethod": {
+          "CVU": [
+            "phone"
+          ],
+          "QRIS": [
+            "phone"
+          ]
+        }
+      },
+      "BDT": {
+        "codes": [
+          "BD_BKASH",
+          "BD_NAGAD"
+        ],
+        "required": [
+          "accountName",
+          "email",
+          "mobile"
+        ]
+      },
+      "BRL": {
+        "codes": [],
+        "required": []
+      },
+      "CLP": {
+        "codes": [],
+        "required": [
+          "customerEmail",
+          "customerName",
+          "documentNumber",
+          "documentType"
+        ]
+      },
+      "COP": {
+        "codes": [],
+        "required": [],
+        "byMethod": {
+          "BREB": [
+            "customerEmail",
+            "customerName",
+            "customerPhone",
+            "documentNumber",
+            "documentType"
+          ]
+        }
+      },
+      "IDR": {
+        "codes": [
+          "ID_DANA",
+          "ID_GOPAY",
+          "ID_LINKAJA",
+          "ID_OVO",
+          "ID_QRIS",
+          "ID_SHOPEEPAY",
+          "ID_VA"
+        ],
+        "required": [
+          "accountName",
+          "bankCode",
+          "email",
+          "mobile"
+        ]
+      },
+      "INR": {
+        "codes": [
+          "IN_UPI"
+        ],
+        "required": [
+          "accountName",
+          "email",
+          "mobile"
+        ]
+      },
+      "MXN": {
+        "codes": [],
+        "required": []
+      },
+      "PEN": {
+        "codes": [
+          "BANK_TRANSFER",
+          "CASH",
+          "E_WALLET"
+        ],
+        "required": [
+          "customerEmail",
+          "customerName",
+          "customerPhone",
+          "documentNumber",
+          "documentType"
+        ]
+      },
+      "PHP": {
+        "codes": [
+          "PH_GCASH",
+          "PH_GCASH_QR",
+          "PH_GRAB",
+          "PH_MAYA",
+          "PH_MAYA_QR",
+          "PH_NATIVE_GCASH",
+          "PH_QRIS"
+        ],
+        "required": []
+      },
+      "PKR": {
+        "codes": [
+          "PK_EASYPAISA",
+          "PK_EASYPAISA_QRPH",
+          "PK_JAZZCASH",
+          "PK_JAZZCASH_QRPH"
+        ],
+        "required": []
+      },
+      "TRY": {
+        "codes": [],
+        "required": [
+          "customerName"
+        ]
+      }
+    },
+    "payout": {
+      "ARS": {
+        "codes": [],
+        "required": [
+          "accountNo",
+          "accountType",
+          "address",
+          "documentNumber",
+          "documentType",
+          "email",
+          "firstName",
+          "lastName",
+          "phone"
+        ]
+      },
+      "BDT": {
+        "codes": [
+          "BD_BKASH",
+          "BD_NAGAD"
+        ],
+        "required": [
+          "accountName",
+          "accountNo",
+          "email",
+          "mobile"
+        ]
+      },
+      "BRL": {
+        "codes": [],
+        "required": [
+          "key",
+          "keyType"
+        ]
+      },
+      "CLP": {
+        "codes": [],
+        "required": [
+          "accountName",
+          "accountNo",
+          "accountType",
+          "bankCode",
+          "customerEmail",
+          "customerPhone",
+          "documentNumber",
+          "documentType"
+        ]
+      },
+      "COP": {
+        "codes": [],
+        "required": [
+          "customerEmail",
+          "customerName",
+          "customerPhone",
+          "documentNumber",
+          "documentType"
+        ],
+        "byMethod": {
+          "BANK_CARD": [
+            "accountNo",
+            "bankName"
+          ],
+          "BANK_TRANSFER": [
+            "accountNo",
+            "bankName"
+          ],
+          "BREB": [
+            "accountNo"
+          ]
+        }
+      },
+      "IDR": {
+        "codes": [],
+        "required": [
+          "accountName",
+          "bankCode",
+          "email",
+          "mobile"
+        ]
+      },
+      "INR": {
+        "codes": [
+          "IN_IFSC",
+          "IN_UPI"
+        ],
+        "required": [
+          "email",
+          "mobile",
+          "name"
+        ],
+        "byMethod": {
+          "IN_IFSC": [
+            "account",
+            "ifsc"
+          ]
+        }
+      },
+      "MXN": {
+        "codes": [],
+        "required": [
+          "accountName",
+          "accountNo",
+          "accountType",
+          "bankCode",
+          "bankName"
+        ]
+      },
+      "PEN": {
+        "codes": [
+          "BANK_TRANSFER",
+          "E_WALLET"
+        ],
+        "required": [
+          "accountName",
+          "accountNo",
+          "bankCode",
+          "customerEmail",
+          "customerPhone",
+          "documentNumber",
+          "documentType"
+        ],
+        "byMethod": {
+          "BANK_TRANSFER": [
+            "accountType",
+            "cciNo"
+          ]
+        }
+      },
+      "PHP": {
+        "codes": [
+          "PH_DF_BANK",
+          "PH_DF_WALLET"
+        ],
+        "required": [
+          "accountName",
+          "accountNo",
+          "bankCode",
+          "email",
+          "mobile"
+        ]
+      },
+      "PKR": {
+        "codes": [
+          "PK_BANK",
+          "PK_EASYPAISA",
+          "PK_JAZZCASH"
+        ],
+        "required": [
+          "accountNo",
+          "cnic",
+          "mobile"
+        ],
+        "byMethod": {
+          "PK_BANK": [
+            "bankCode"
+          ]
+        }
+      },
+      "TRY": {
+        "codes": [],
+        "required": [
+          "accountName",
+          "accountNo"
+        ],
+        "byMethod": {
+          "BANK_TRANSFER": [
+            "bankCode",
+            "bankName"
+          ]
+        }
+      }
+    }
+  }
+}

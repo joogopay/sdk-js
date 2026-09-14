@@ -1,0 +1,18 @@
+{
+  "name": "@joogopay/sdk",
+  "version": "0.1.0",
+  "description": "Merchant open API SDK (Ed25519 / RFC 9421 signing, X25519 sealed box body encryption)",
+  "repository": { "type": "git", "url": "git+https://github.com/joogopay/sdk-js.git" },
+  "homepage": "https://github.com/joogopay/sdk-js#readme",
+  "bugs": { "url": "https://github.com/joogopay/sdk-js/issues" },
+  "author": "JooGoPay <support@joogopay.com>",
+  "keywords": ["payment", "payout", "merchant-api", "ed25519", "rfc9421"],
+  "type": "module",
+  "main": "src/index.js",
+  "exports": { ".": "./src/index.js" },
+  "engines": { "node": ">=18" },
+  "files": ["src", "README.md"],
+  "scripts": { "test": "node --test test/*.test.js" },
+  "dependencies": { "libsodium-wrappers": "^0.7.15" },
+  "license": "Apache-2.0"
+}

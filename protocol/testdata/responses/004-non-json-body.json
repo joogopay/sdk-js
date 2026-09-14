@@ -1,0 +1,8 @@
+{
+  "bodyFile": "004-non-json-body.html",
+  "expectedErr": "*ResponseError",
+  "expectedFields": {
+    "HTTPStatus": 502
+  },
+  "httpStatus": 502
+}

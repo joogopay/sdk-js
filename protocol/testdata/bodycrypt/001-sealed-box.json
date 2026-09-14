@@ -1,0 +1,12 @@
+{
+  "envelope": {
+    "version": 1,
+    "alg": "sealedbox-v1-x25519-xsalsa20poly1305",
+    "keyId": "body_test_1",
+    "ciphertext": "4/P7Wrlz8Xro74MZefTrzvgPdtxbSwgW/flVInsOlE6wo9IRNfFL3yeHZC49nJYNxfCYUcBjN3fnkymHXfBwW1ySJT5yyBOVhSoqk0RPKcP4balb+NTMZ/aXrfaAs42naQpLB/btI1ISEKGfOAvF0mVgpSdKMQ=="
+  },
+  "keyId": "body_test_1",
+  "plaintextBase64": "eyJtZXJjaGFudE9yZGVyTm8iOiJNMjAyNjA4MjcwMDAxIiwiYW1vdW50IjoiMTAwLjUwIiwiY3VycmVuY3kiOiJCUkwifQ==",
+  "platformBodyPrivateKeyBase64": "MzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM=",
+  "platformBodyPublicKeyBase64": "ew1H2TQn+DERYHgcfHM/2J+IlwrvSQ2KoO4ZpMuKGxQ="
+}

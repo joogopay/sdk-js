@@ -1,0 +1,20 @@
+{
+  "$comment": [
+    "Client-side validation constants for the top-level create-order fields; the single source of truth shared by the five language SDKs.",
+    "Extracted from the gateway's request validators and checked by hand.",
+    "required_text_fields: plain-text fields the gateway marks as required; non-empty after trimming whitespace is enough.",
+    "amount_pattern: the gateway's amount format plus the DECIMAL(18,2) limit (16 integer digits, 2 decimals);",
+    "  amount must also be a string and greater than zero. Those two checks are hard-coded in each language's validator, not here.",
+    "webhook_url_prefix: the gateway requires a URL starting with https://, matched case-insensitively.",
+    "To change a constant edit this file only and regenerate the per-language tables so all five languages update together;",
+    "the vectors in protocol/testdata/validation/ are verified by every language's test suite."
+  ],
+  "create": {
+    "required_text_fields": [
+      "merchantOrderNo",
+      "currency"
+    ],
+    "amount_pattern": "^(0|[1-9][0-9]{0,15})(\\.[0-9]{1,2})?$",
+    "webhook_url_prefix": "https://"
+  }
+}

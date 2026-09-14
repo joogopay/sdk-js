@@ -1,0 +1,24 @@
+{
+  "body": {
+    "code": 200,
+    "data": {
+      "action": {
+        "payContent": "00020-qr",
+        "qrCode": "00020-qr"
+      },
+      "amount": "100.00",
+      "createdAt": 1717200000,
+      "currency": "BRL",
+      "merchantOrderNo": "M001",
+      "orderNo": "ORD202605190001",
+      "paidAmount": "100.00",
+      "paymentMethod": "PIX",
+      "status": "SUCCEEDED",
+      "updatedAt": 1717200060
+    },
+    "msg": "OK",
+    "traceId": "trace-success"
+  },
+  "expectedOutcome": "success: out is *PaymentOrder, OrderNo=ORD202605190001",
+  "httpStatus": 200
+}

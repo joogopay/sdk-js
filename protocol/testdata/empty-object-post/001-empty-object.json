@@ -1,0 +1,33 @@
+{
+  "plaintext": "{}",
+  "envelope": {
+    "version": 1,
+    "alg": "sealedbox-v1-x25519-xsalsa20poly1305",
+    "keyId": "body_test_1",
+    "ciphertext": "cJNCfLPrdwPA1SZ2zlRZcTTCleOO3Uq6MUvcgKQK+EAzfODrnKQNQRQvklJoJH8AvVI="
+  },
+  "platformBodyKey": {
+    "keyId": "body_test_1",
+    "publicKeyBase64": "ew1H2TQn+DERYHgcfHM/2J+IlwrvSQ2KoO4ZpMuKGxQ=",
+    "privateKeyBase64": "MzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM="
+  },
+  "input": {
+    "method": "POST",
+    "path": "/api/v1/payments",
+    "rawQuery": "",
+    "accessKey": "mak_live_test",
+    "idempotencyKey": "018fb9b4-95f3-4a47-8f08-27466f7d4c1d",
+    "nonce": "b7754a6c-4a9c-4cf0-b77f-6f2d4b7e5f5a"
+  },
+  "merchantKey": {
+    "merchantPrivateKeyBase64": "ERERERERERERERERERERERERERERERERERERERERERHQSrIydCu0qzoTaL1GFeTm0CJKtxoBa6+FIKMyyXeHNw==",
+    "merchantPrivateKeySeedBase64": "ERERERERERERERERERERERERERERERERERERERERERE=",
+    "merchantPublicKeyBase64": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+  },
+  "expected": {
+    "contentDigest": "sha-256=:gqerLWZham0+ixKxFepM6uwmfeHVjNonc2K8FnniuWI=:",
+    "signatureInput": "merchant=(\"@method\" \"@path\" \"content-type\" \"content-encryption\" \"content-digest\" \"idempotency-key\" \"merchant-access-key\");created=1787803200;expires=1787803500;nonce=\"b7754a6c-4a9c-4cf0-b77f-6f2d4b7e5f5a\";alg=\"ed25519\"",
+    "signatureBase": "\"@method\": POST\n\"@path\": /api/v1/payments\n\"content-type\": application/json\n\"content-encryption\": sealedbox-v1-x25519-xsalsa20poly1305\n\"content-digest\": sha-256=:gqerLWZham0+ixKxFepM6uwmfeHVjNonc2K8FnniuWI=:\n\"idempotency-key\": 018fb9b4-95f3-4a47-8f08-27466f7d4c1d\n\"merchant-access-key\": mak_live_test\n\"@signature-params\": (\"@method\" \"@path\" \"content-type\" \"content-encryption\" \"content-digest\" \"idempotency-key\" \"merchant-access-key\");created=1787803200;expires=1787803500;nonce=\"b7754a6c-4a9c-4cf0-b77f-6f2d4b7e5f5a\";alg=\"ed25519\"",
+    "signature": "merchant=:OX2sXBOrHfC6Jh0Dyhf202YrQbUwxK6iqQHnupIS3Vknp9SwioVugT4WewoSWLR0G2/yCxON0/utB43Ra4N8Dw==:"
+  }
+}

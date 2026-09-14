@@ -1,0 +1,11 @@
+{
+  "body": {
+    "code": 12100099,
+    "data": null,
+    "msg": "SOME_BUSINESS_ERROR",
+    "traceId": "trace-drift"
+  },
+  "expectedErr": "*APIError",
+  "httpStatus": 200,
+  "note": "HTTP 200 with envelope code != 200 is still an APIError (double check)"
+}

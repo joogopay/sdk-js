@@ -1,0 +1,19 @@
+{
+  "expected": {
+    "signature": "merchant=:H1IK1NGk7htlA/O3JZhndbDGkl/gB/a3Hw4wtlNGXoG+mHYvtSGUWBUs0fJOc0MpNrJ5KYGqnohDDXd9jAxYCg==:",
+    "signatureBase": "\"@method\": GET\n\"@path\": /api/v1/payments\n\"@query\": ?orderNo=P202608270001\n\"merchant-access-key\": mak_live_test\n\"@signature-params\": (\"@method\" \"@path\" \"@query\" \"merchant-access-key\");created=1787803200;expires=1787803500;nonce=\"b7754a6c-4a9c-4cf0-b77f-6f2d4b7e5f5a\";alg=\"ed25519\"",
+    "signatureInput": "merchant=(\"@method\" \"@path\" \"@query\" \"merchant-access-key\");created=1787803200;expires=1787803500;nonce=\"b7754a6c-4a9c-4cf0-b77f-6f2d4b7e5f5a\";alg=\"ed25519\""
+  },
+  "input": {
+    "accessKey": "mak_live_test",
+    "method": "GET",
+    "nonce": "b7754a6c-4a9c-4cf0-b77f-6f2d4b7e5f5a",
+    "path": "/api/v1/payments",
+    "rawQuery": "orderNo=P202608270001"
+  },
+  "key": {
+    "merchantPrivateKeyBase64": "ERERERERERERERERERERERERERERERERERERERERERHQSrIydCu0qzoTaL1GFeTm0CJKtxoBa6+FIKMyyXeHNw==",
+    "merchantPrivateKeySeedBase64": "ERERERERERERERERERERERERERERERERERERERERERE=",
+    "merchantPublicKeyBase64": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+  }
+}

@@ -1,0 +1,438 @@
+{
+  "methods": [
+    {
+      "name": "PIX",
+      "value": "PIX",
+      "extra_field": "pix",
+      "payin": true,
+      "payout": true
+    },
+    {
+      "name": "PagoFacil",
+      "value": "PAGO_FACIL",
+      "extra_field": "pagoFacil",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "Rapipago",
+      "value": "RAPIPAGO",
+      "extra_field": "rapipago",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "BankTransfer",
+      "value": "BANK_TRANSFER",
+      "extra_field": "bankTransfer",
+      "payin": true,
+      "payout": true
+    },
+    {
+      "name": "CVU",
+      "value": "CVU",
+      "extra_field": "cvu",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "QRIS",
+      "value": "QRIS",
+      "extra_field": "qris",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "SPEI",
+      "value": "SPEI",
+      "extra_field": "spei",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "OXXO",
+      "value": "OXXO",
+      "extra_field": null,
+      "payin": false,
+      "payout": false
+    },
+    {
+      "name": "Cash",
+      "value": "CASH",
+      "extra_field": "cash",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "PSE",
+      "value": "PSE",
+      "extra_field": "pse",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "Nequi",
+      "value": "NEQUI",
+      "extra_field": "nequi",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "Transfiya",
+      "value": "TRANSFIYA",
+      "extra_field": "transfiya",
+      "payin": true,
+      "payout": true
+    },
+    {
+      "name": "Breb",
+      "value": "BREB",
+      "extra_field": "breb",
+      "payin": true,
+      "payout": true
+    },
+    {
+      "name": "Webpay",
+      "value": "WEBPAY",
+      "extra_field": "webpay",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "Khipu",
+      "value": "KHIPU",
+      "extra_field": "khipu",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "Mach",
+      "value": "MACH",
+      "extra_field": "mach",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "Pago46",
+      "value": "PAGO46",
+      "extra_field": "pago46",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "ServiFacil",
+      "value": "SERVIFACIL",
+      "extra_field": "serviFacil",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "EWallet",
+      "value": "E_WALLET",
+      "extra_field": "eWallet",
+      "payin": true,
+      "payout": true
+    },
+    {
+      "name": "CashApp",
+      "value": "CASH_APP",
+      "extra_field": "cashApp",
+      "payin": true,
+      "payout": true
+    },
+    {
+      "name": "CreditCard",
+      "value": "CREDIT_CARD",
+      "extra_field": "creditCard",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "ApplePay",
+      "value": "APPLE_PAY",
+      "extra_field": "applePay",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "GooglePay",
+      "value": "GOOGLE_PAY",
+      "extra_field": "googlePay",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "Neteller",
+      "value": "NETELLER",
+      "extra_field": "neteller",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "Skrill",
+      "value": "SKRILL",
+      "extra_field": "skrill",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "USDTTRC20",
+      "value": "USDT-TRC20",
+      "extra_field": "usdtTrc20",
+      "payin": true,
+      "payout": true
+    },
+    {
+      "name": "USDTERC20",
+      "value": "USDT-ERC20",
+      "extra_field": "usdtErc20",
+      "payin": true,
+      "payout": true
+    },
+    {
+      "name": "USDTBEP20",
+      "value": "USDT-BEP20",
+      "extra_field": "usdtBep20",
+      "payin": true,
+      "payout": true
+    },
+    {
+      "name": "BDBkash",
+      "value": "BD_BKASH",
+      "extra_field": "bdBkash",
+      "payin": true,
+      "payout": true
+    },
+    {
+      "name": "BDNagad",
+      "value": "BD_NAGAD",
+      "extra_field": "bdNagad",
+      "payin": true,
+      "payout": true
+    },
+    {
+      "name": "IDVA",
+      "value": "ID_VA",
+      "extra_field": "idVa",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "IDQRIS",
+      "value": "ID_QRIS",
+      "extra_field": "idQris",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "IDDana",
+      "value": "ID_DANA",
+      "extra_field": "idDana",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "IDOvo",
+      "value": "ID_OVO",
+      "extra_field": "idOvo",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "IDGopay",
+      "value": "ID_GOPAY",
+      "extra_field": "idGopay",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "IDLinkaja",
+      "value": "ID_LINKAJA",
+      "extra_field": "idLinkaja",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "IDShopeepay",
+      "value": "ID_SHOPEEPAY",
+      "extra_field": "idShopeepay",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "PHGcash",
+      "value": "PH_GCASH",
+      "extra_field": "phGcash",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "PHMaya",
+      "value": "PH_MAYA",
+      "extra_field": "phMaya",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "PHGrab",
+      "value": "PH_GRAB",
+      "extra_field": "phGrab",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "PHQRIS",
+      "value": "PH_QRIS",
+      "extra_field": "phQris",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "PHGcashQR",
+      "value": "PH_GCASH_QR",
+      "extra_field": "phGcashQr",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "PHMayaQR",
+      "value": "PH_MAYA_QR",
+      "extra_field": "phMayaQr",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "PHNativeGcash",
+      "value": "PH_NATIVE_GCASH",
+      "extra_field": "phNativeGcash",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "PKJazzcashQrph",
+      "value": "PK_JAZZCASH_QRPH",
+      "extra_field": "pkJazzcashQrph",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "PKEasypaisaQrph",
+      "value": "PK_EASYPAISA_QRPH",
+      "extra_field": "pkEasypaisaQrph",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "PKJazzcash",
+      "value": "PK_JAZZCASH",
+      "extra_field": "pkJazzcash",
+      "payin": true,
+      "payout": true
+    },
+    {
+      "name": "PKEasypaisa",
+      "value": "PK_EASYPAISA",
+      "extra_field": "pkEasypaisa",
+      "payin": true,
+      "payout": true
+    },
+    {
+      "name": "THBankCard",
+      "value": "TH_BANK_CARD",
+      "extra_field": "thBankCard",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "THTruemoney",
+      "value": "TH_TRUEMONEY",
+      "extra_field": "thTruemoney",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "THPromptpay",
+      "value": "TH_PROMPTPAY",
+      "extra_field": "thPromptpay",
+      "payin": true,
+      "payout": false
+    },
+    {
+      "name": "BankCard",
+      "value": "BANK_CARD",
+      "extra_field": "bankCard",
+      "payin": false,
+      "payout": true
+    },
+    {
+      "name": "Papara",
+      "value": "PAPARA",
+      "extra_field": "papara",
+      "payin": false,
+      "payout": true
+    },
+    {
+      "name": "P2P",
+      "value": "P2P",
+      "extra_field": "p2p",
+      "payin": false,
+      "payout": true
+    },
+    {
+      "name": "SBP",
+      "value": "SBP",
+      "extra_field": "sbp",
+      "payin": false,
+      "payout": true
+    },
+    {
+      "name": "IDBankTransfer",
+      "value": "ID_BANK_TRANSFER",
+      "extra_field": "idBankTransfer",
+      "payin": false,
+      "payout": true
+    },
+    {
+      "name": "PHDfWallet",
+      "value": "PH_DF_WALLET",
+      "extra_field": "phDfWallet",
+      "payin": false,
+      "payout": true
+    },
+    {
+      "name": "PHDfBank",
+      "value": "PH_DF_BANK",
+      "extra_field": "phDfBank",
+      "payin": false,
+      "payout": true
+    },
+    {
+      "name": "PKBank",
+      "value": "PK_BANK",
+      "extra_field": "pkBank",
+      "payin": false,
+      "payout": true
+    },
+    {
+      "name": "THBankTransfer",
+      "value": "TH_BANK_TRANSFER",
+      "extra_field": "thBankTransfer",
+      "payin": false,
+      "payout": true
+    },
+    {
+      "name": "INIFSC",
+      "value": "IN_IFSC",
+      "extra_field": "inIfsc",
+      "payin": false,
+      "payout": true
+    },
+    {
+      "name": "INUPI",
+      "value": "IN_UPI",
+      "extra_field": "inUpi",
+      "payin": true,
+      "payout": true
+    }
+  ]
+}

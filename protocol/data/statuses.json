@@ -1,0 +1,22 @@
+{
+  "statuses": [
+    {
+      "value": "PENDING"
+    },
+    {
+      "value": "PROCESSING"
+    },
+    {
+      "value": "SUCCEEDED"
+    },
+    {
+      "value": "FAILED"
+    },
+    {
+      "value": "EXPIRED"
+    },
+    {
+      "value": "CANCELED"
+    }
+  ]
+}

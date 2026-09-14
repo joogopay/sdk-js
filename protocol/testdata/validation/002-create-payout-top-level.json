@@ -1,0 +1,51 @@
+{
+  "$comment": [
+    "Create pay-out uses the same top-level validation; this file only verifies that the payout path is wired up and does not repeat every case from 001."
+  ],
+  "direction": "payout",
+  "base": {
+    "merchantOrderNo": "M2",
+    "currency": "BRL",
+    "amount": "10.00",
+    "payoutMethod": {
+      "code": "PIX",
+      "pix": {
+        "keyType": "CPF",
+        "key": "12345678901"
+      }
+    },
+    "webhookUrl": "https://m/h"
+  },
+  "cases": [
+    {
+      "name": "valid payout",
+      "override": {},
+      "expect": "accept"
+    },
+    {
+      "name": "amount is not numeric",
+      "override": {
+        "amount": "abc"
+      },
+      "expect": "reject",
+      "reason": "invalid_amount"
+    },
+    {
+      "name": "webhookUrl is http",
+      "override": {
+        "webhookUrl": "http://m/h"
+      },
+      "expect": "reject",
+      "reason": "invalid_webhook_url"
+    },
+    {
+      "name": "missing merchantOrderNo",
+      "override": {
+        "merchantOrderNo": ""
+      },
+      "expect": "reject",
+      "reason": "missing_required_field",
+      "field": "merchantOrderNo"
+    }
+  ]
+}

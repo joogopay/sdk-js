@@ -1,0 +1,19 @@
+{
+  "body": {
+    "code": 12100013,
+    "data": {
+      "message": "order not found"
+    },
+    "msg": "ORDER_NOT_FOUND",
+    "traceId": "trace-err"
+  },
+  "expectedErr": "*APIError",
+  "expectedFields": {
+    "Code": 12100013,
+    "HTTPStatus": 404,
+    "Message": "order not found",
+    "Msg": "ORDER_NOT_FOUND",
+    "TraceID": "trace-err"
+  },
+  "httpStatus": 404
+}
