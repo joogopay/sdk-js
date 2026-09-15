@@ -31,7 +31,9 @@ Every language SDK follows these:
    envelope `data`, with no metadata wrapper and no SDK fields mixed into DTOs.
 2. Writes (`CreatePayment`, `CreatePayout`) are not retried automatically. After a
    timeout or transport error, recover by querying with `merchantOrderNo` /
-   `orderNo`. Reuse one idempotency key to retry the same create.
+   `orderNo`. A deliberate retry reuses the same `merchantOrderNo`, which is the
+   only key the platform deduplicates on; the idempotency key is carried for
+   tracing and takes a fresh value per request.
 3. No SDK-side enum validation of currency / country / method; enum constants are
    hints only, unknown values pass through.
 4. Every **signed** `POST` body is a sealed-box envelope; the signature always

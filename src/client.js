@@ -29,6 +29,22 @@ function encodeBody(body) {
 /**
  * Merchant open API client. Signing, digest and body encryption happen inside;
  * callers never touch Signature-Input, Content-Digest or the envelope.
+ *
+ * baseUrl is scheme and host only, https; a path is rejected because the SDK
+ * appends the endpoint path itself.
+ *
+ * merchantPrivateKeyBase64 takes either form of Ed25519 private key: the 32-byte
+ * seed libsodium and OpenSSL hand out, or the 64-byte seed plus public key.
+ *
+ * platformBodyKeyId names which platform key seals the request body and travels
+ * in the envelope so the gateway knows which private key opens it; it must name
+ * the key given in platformBodyPublicKeyBase64, which is X25519, not the Ed25519
+ * webhook key.
+ *
+ * platformWebhookPublicKeys maps key id to platform Ed25519 public key and
+ * verifies webhook signatures, the opposite direction. The webhook names its key
+ * id, so this holds every key the platform may currently sign with; during a
+ * rotation that is two. Required even without webhooks.
  */
 export class Client {
   constructor({
@@ -252,9 +268,13 @@ export class Client {
 
   async #write(path, body, idempotencyKey) {
     const key = String(idempotencyKey ?? p.newNonce()).trim();
-    p.validateIdempotencyKey(key);
     const url = this.baseUrl + path;
-    const built = await this.#build(buildWrite, {
+    // Rejecting a malformed key is a pre-send failure like any other build
+    // failure, so it runs inside #build and surfaces as RequestError.
+    const built = await this.#build((args) => {
+      p.validateIdempotencyKey(key);
+      return buildWrite(args);
+    }, {
       endpointUrl: url,
       accessKey: this.accessKey,
       idempotencyKey: key,
@@ -276,7 +296,10 @@ export class Client {
       }
       params.set(key, value);
     }
-    const url = this.baseUrl + path + (params.size ? `?${params}` : '');
+    // URLSearchParams.size landed in Node 18.16; on an earlier 18.x it is
+    // undefined, which silently dropped the whole query string.
+    const queryString = params.toString();
+    const url = this.baseUrl + path + (queryString ? `?${queryString}` : '');
     const built = await this.#build(buildRead, {
       endpointUrl: url,
       accessKey: this.accessKey,

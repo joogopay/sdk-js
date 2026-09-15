@@ -1,5 +1,12 @@
 # Changelog — protocol
 
+## Unreleased
+
+- `data/methods.json`: `ID_DANA` / `ID_OVO` / `ID_GOPAY` / `ID_LINKAJA` / `ID_SHOPEEPAY`
+  are payout methods as well (Indonesia wallet payouts). The extra field is the
+  same `PayoutBankAccountContactExtra` shape as `ID_BANK_TRANSFER`; `bankCode`
+  is the wallet code (`DANA`, `OVO`, ...), `accountNo` may be omitted.
+
 ## v0.1.0 — 2026-09-14
 
 - Top-level validation constants (required text fields, amount pattern, webhook

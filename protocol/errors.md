@@ -28,7 +28,7 @@ The server always writes HTTP 200 + `code:200` on success and HTTP 4xx/5xx + `co
 
 ## Error msg enum
 
-13 error msgs:
+14 error msgs:
 
 | Msg | Code | HTTP | Meaning |
 |---|---:|---:|---|
@@ -39,7 +39,7 @@ The server always writes HTTP 200 + `code:200` on success and HTTP 4xx/5xx + `co
 | `INSUFFICIENT_BALANCE` | 12100011 | 402 | insufficient balance |
 | `METHOD_NOT_ENABLED` | 12100012 | 403 | method not enabled |
 | `ORDER_NOT_FOUND` | 12100013 | 404 | order does not exist |
-| `IDEMPOTENCY_CONFLICT` | 12100014 | 409 | `merchantOrderNo` reused with a request that differs from the original |
+| `IDEMPOTENCY_CONFLICT` | 12100014 | 409 | `merchantOrderNo` is taken but the platform could not return its order; query that number, do not allocate a new one |
 | `RATE_LIMITED` | 12100015 | 429 | rate limited |
 | `SERVICE_UNAVAILABLE` | 12100017 | 503 | service unavailable |
 | `INTERNAL_ERROR` | 12100016 | 500 | internal error |

@@ -434,6 +434,24 @@ test('validation: valid requests always pass', async () => {
   }
 });
 
+// Rejecting the key happens before anything is sent, so it must land in the same
+// class as any other pre-send failure; a merchant reading TransportError here
+// would query an order that was never created.
+test('a malformed idempotency key is a RequestError and nothing is sent', async () => {
+  nextResponse = {};
+  captured = {};
+  const client = makeClient();
+  await assert.rejects(
+    () => client.createPayment({
+      merchantOrderNo: 'M1', currency: 'BRL', amount: '1.00',
+      paymentMethod: { code: 'PIX', pix: { payerName: 'X' } },
+      webhookUrl: 'https://m.example.com/w',
+    }, { idempotencyKey: 'my-key-123' }),
+    (err) => err instanceof sdk.RequestError,
+  );
+  assert.deepEqual(captured, {}, 'nothing reached the server');
+});
+
 test('validation: conditional required fields; flattening them would wrongly reject IN_UPI', async () => {
   nextResponse = {};
   const client = makeClient();
@@ -459,6 +477,26 @@ test('validation: conditional required fields; flattening them would wrongly rej
       name: 'Mary', email: 'm@example.com', mobile: '9871476369',
     },
   }));
+});
+
+test('validation: IDR wallet payouts are accepted under their own extra field', async () => {
+  nextResponse = {};
+  const client = makeClient();
+  const extra = (wallet) => ({ bankCode: wallet, accountName: 'Budi', email: 'b@example.com', mobile: '081234567890' });
+  const payout = (payoutMethod) => ({
+    merchantOrderNo: 'M1', currency: 'IDR', amount: '10000', payoutMethod,
+    webhookUrl: 'https://m.example.com/w',
+  });
+
+  for (const [code, field, wallet] of [
+    ['ID_DANA', 'idDana', 'DANA'], ['ID_OVO', 'idOvo', 'OVO'], ['ID_GOPAY', 'idGopay', 'GOPAY'],
+    ['ID_LINKAJA', 'idLinkaja', 'LINKAJA'], ['ID_SHOPEEPAY', 'idShopeepay', 'SHOPEEPAY'],
+  ]) {
+    await client.createPayout(payout({ code, [field]: extra(wallet) }));
+  }
+
+  await assert.rejects(() => client.createPayout(payout({ code: 'ID_DANA', idOvo: extra('OVO') })),
+    /does not match code/);
 });
 
 // Top-level required/format vectors shared by all SDKs; a failure here is a protocol

@@ -12,7 +12,7 @@ merchant holds the private key; the platform holds the public key.
 | `Content-Type` | write | `application/json` |
 | `Content-Encryption` | write | `sealedbox-v1-x25519-xsalsa20poly1305` |
 | `Content-Digest` | write | `sha-256=:<base64(sha256(wire-body))>:` (RFC 9530) |
-| `Idempotency-Key` | write | UUID v4, stable across retries of one create |
+| `Idempotency-Key` | write | UUID v4, fresh per request; carried for tracing, never used for deduplication |
 | `Signature-Input` | write, read | `merchant=(<components>);created=…;expires=…;nonce="…";alg="ed25519"` |
 | `Signature` | write, read | `merchant=:<base64(ed25519-signature)>:` |
 

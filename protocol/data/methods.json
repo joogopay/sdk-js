@@ -229,35 +229,35 @@
       "value": "ID_DANA",
       "extra_field": "idDana",
       "payin": true,
-      "payout": false
+      "payout": true
     },
     {
       "name": "IDOvo",
       "value": "ID_OVO",
       "extra_field": "idOvo",
       "payin": true,
-      "payout": false
+      "payout": true
     },
     {
       "name": "IDGopay",
       "value": "ID_GOPAY",
       "extra_field": "idGopay",
       "payin": true,
-      "payout": false
+      "payout": true
     },
     {
       "name": "IDLinkaja",
       "value": "ID_LINKAJA",
       "extra_field": "idLinkaja",
       "payin": true,
-      "payout": false
+      "payout": true
     },
     {
       "name": "IDShopeepay",
       "value": "ID_SHOPEEPAY",
       "extra_field": "idShopeepay",
       "payin": true,
-      "payout": false
+      "payout": true
     },
     {
       "name": "PHGcash",
