@@ -6,7 +6,7 @@ or the sealed box envelope by hand.
 
 ## Protocol
 
-[`protocol/`](protocol/) is the source of truth; the Go, JavaScript, PHP, Python and
+[`protocol/`](https://github.com/joogopay/sdk-js/tree/main/protocol/) is the source of truth; the Go, JavaScript, PHP, Python and
 Java SDKs are verified against the same set of test vectors:
 
 | Item | Approach |
@@ -97,7 +97,7 @@ Two rules follow:
 
 The SDK validates locally before signing (top-level required fields and formats, method
 code structure and required extras); the rules are defined in
-[`protocol/merchant-api.md`](protocol/merchant-api.md#client-side-validation). Format checks
+[`protocol/merchant-api.md`](https://github.com/joogopay/sdk-js/blob/main/protocol/merchant-api.md#client-side-validation). Format checks
 such as phone number length or email syntax are deliberately left to the gateway so the SDK
 never drifts from it.
 
@@ -105,8 +105,8 @@ never drifts from it.
 
 Querying, idempotent retries and webhook verification are covered by the platform
 documentation at <https://docs.joogopay.com>; its examples map one to one onto this SDK.
-The wire protocol is in [`protocol/webhook.md`](protocol/webhook.md) and
-[`protocol/merchant-api.md`](protocol/merchant-api.md). Key points:
+The wire protocol is in [`protocol/webhook.md`](https://github.com/joogopay/sdk-js/blob/main/protocol/webhook.md) and
+[`protocol/merchant-api.md`](https://github.com/joogopay/sdk-js/blob/main/protocol/merchant-api.md). Key points:
 
 - After a create request times out, query by `merchantOrderNo` first instead of sending
   a new order; a deliberate retry repeats the same call with the same `merchantOrderNo`.
@@ -141,6 +141,6 @@ Only six external statuses exist: `PENDING` `PROCESSING` `SUCCEEDED` `FAILED` `E
 npm test
 ```
 
-The tests assert directly against the vectors in [`protocol/testdata`](protocol/testdata/):
+The tests assert directly against the vectors in [`protocol/testdata`](https://github.com/joogopay/sdk-js/tree/main/protocol/testdata/):
 `Signature-Input`, signature base and signature value are compared byte for byte, and
 body encryption is verified by decrypting ciphertext produced by the reference implementation.

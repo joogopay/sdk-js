@@ -539,3 +539,52 @@ test('receipt: blank order number is rejected, surrounding whitespace is trimmed
   await client.getPayoutReceipt('  P202608270001 ');
   assert.equal(captured.path, '/api/v1/payouts/P202608270001/receipt');
 });
+
+test('ARS payout permits an empty address but requires a string field', async () => {
+  const extra = { firstName: 'Ana', lastName: 'Perez', email: 'ana@example.com', phone: '1123456789', documentType: 'DNI', documentNumber: '30123456', address: '', accountNo: '0000003100012345678901', accountType: 'CBU' };
+  const request = (bankTransfer) => ({ merchantOrderNo: 'ars-address-001', currency: 'ARS', amount: '1.00', webhookUrl: 'https://merchant.example.com/webhook', payoutMethod: { code: 'BANK_TRANSFER', bankTransfer } });
+  nextResponse = {};
+  await makeClient().createPayout(request(extra));
+  const opened = await p.openBodyEnvelope(captured.body, b64(BODY.platformBodyPublicKeyBase64), b64(BODY.platformBodyPrivateKeyBase64));
+  const body = JSON.parse(opened.plaintext.toString('utf8'));
+  assert.equal(body.payoutMethod.bankTransfer.address, '');
+  const blocked = makeClient({ fetchImpl: async () => { assert.fail('invalid address reached transport'); } });
+  for (const address of [undefined, null, 1, false, [], {}]) {
+    const invalid = { ...extra, address };
+    if (address === undefined) delete invalid.address;
+    await assert.rejects(blocked.createPayout(request(invalid)), /extra.address/);
+  }
+  for (const field of ['documentType', 'documentNumber']) {
+    await assert.rejects(blocked.createPayout(request({ ...extra, [field]: '' })), new RegExp(`extra.${field}`));
+  }
+});
+
+for (const req of (() => {
+  const v = load('methods/001-usd-wallets.json');
+  return [v.payment, ...v.payouts];
+})()) {
+  const methodField = req.paymentMethod ? 'paymentMethod' : 'payoutMethod';
+  const method = req[methodField];
+  const branch = Object.keys(method).find((key) => key !== 'code');
+  test(`USD ${methodField} ${method.code}: sealed fields and required validation`, async () => {
+    nextResponse = {};
+    const client = makeClient();
+    const create = (value) => req.paymentMethod ? client.createPayment(value) : client.createPayout(value);
+    await create(req);
+    const opened = await p.openBodyEnvelope(captured.body,
+      b64(BODY.platformBodyPublicKeyBase64), b64(BODY.platformBodyPrivateKeyBase64));
+    assert.deepEqual(JSON.parse(opened.plaintext), req);
+    const lastRequest = captured;
+    for (const field of Object.keys(method[branch])) {
+      for (const empty of [null, '', '  ']) {
+        const invalid = structuredClone(req);
+        invalid[methodField][branch][field] = empty;
+        await assert.rejects(() => create(invalid), sdk.RequestError);
+        assert.equal(captured, lastRequest, `${field} must fail before HTTP`);
+      }
+    }
+    const formats = structuredClone(req);
+    for (const field of Object.keys(method[branch])) formats[methodField][branch][field] = 'format-is-checked-by-gateway';
+    await create(formats);
+  });
+}

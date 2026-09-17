@@ -2,6 +2,18 @@
 
 Versions follow SemVer. Tags are `vX.Y.Z` on this repository.
 
+## v0.1.2 — 2026-09-17
+
+- USD payments accept `CASH_APP`; USD payouts accept `CASH_APP`, `PAYPAL` and
+  `CHIME`. Each method carries its own extra field and its own required set,
+  checked before the request goes out.
+- ARS payouts accept an empty `address`. It is the only required field that may
+  be blank, and it must still be present as a string: `undefined`, `null` and
+  non-string values are rejected the way an empty required field always was.
+- Documentation: the `protocol/` links in the README point at the repository.
+  That directory is not shipped in the package, so the relative links they
+  replace were dead on the npm package page.
+
 ## v0.1.1 — 2026-09-15
 
 - Fixed: every query call dropped its query string on Node older than 18.16,

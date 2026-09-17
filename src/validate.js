@@ -105,6 +105,12 @@ function validateMethod(currency, method, rules) {
     throw new RequestError(`sdk: method extra must be an object: ${present[0]}`);
   }
   for (const field of need) {
+    if ((rule.allowEmpty ?? []).includes(field)) {
+      if (typeof extra?.[field] !== 'string') {
+        throw new RequestError(`sdk: extra.${field} must be a string for ${currency} ${code}`);
+      }
+      continue;
+    }
     if (isEmpty(extra?.[field])) {
       throw new RequestError(
         `sdk: required extra field is empty: extra.${field} for ${currency} ${code}`,

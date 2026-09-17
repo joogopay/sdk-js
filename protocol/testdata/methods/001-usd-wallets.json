@@ -1,0 +1,93 @@
+{
+  "payment": {
+    "merchantOrderNo": "usd-wallet-demo-001",
+    "currency": "USD",
+    "country": "US",
+    "amount": "10.01",
+    "webhookUrl": "https://merchant.example.com/webhook",
+    "paymentMethod": {
+      "code": "CASH_APP",
+      "cashApp": {
+        "name": "Alex Morgan",
+        "phone": "+12025550123",
+        "email": "alex@example.com",
+        "ipAddress": "203.0.113.10"
+      }
+    },
+    "returnUrl": "https://merchant.example.com/return"
+  },
+  "payouts": [
+    {
+      "merchantOrderNo": "usd-wallet-demo-001",
+      "currency": "USD",
+      "country": "US",
+      "amount": "10.01",
+      "webhookUrl": "https://merchant.example.com/webhook",
+      "payoutMethod": {
+        "code": "CASH_APP",
+        "cashApp": {
+          "name": "Alex Morgan",
+          "phone": "+12025550123",
+          "email": "alex@example.com",
+          "accountNo": "$example-recipient",
+          "firstName": "Alex",
+          "lastName": "Morgan",
+          "dateOfBirth": "1990-01-02",
+          "countryOfResidence": "US",
+          "stateOfResidence": "CA",
+          "cardCity": "Example City",
+          "cardStreet": "123 Example Street",
+          "cardPostCode": "90001"
+        }
+      }
+    },
+    {
+      "merchantOrderNo": "usd-wallet-demo-001",
+      "currency": "USD",
+      "country": "US",
+      "amount": "10.01",
+      "webhookUrl": "https://merchant.example.com/webhook",
+      "payoutMethod": {
+        "code": "PAYPAL",
+        "paypal": {
+          "name": "Alex Morgan",
+          "phone": "+12025550123",
+          "email": "alex@example.com",
+          "accountNo": "PAYPAL_ACCOUNT_PLACEHOLDER",
+          "firstName": "Alex",
+          "lastName": "Morgan",
+          "dateOfBirth": "1990-01-02",
+          "countryOfResidence": "US",
+          "stateOfResidence": "CA",
+          "cardCity": "Example City",
+          "cardStreet": "123 Example Street",
+          "cardPostCode": "90001"
+        }
+      }
+    },
+    {
+      "merchantOrderNo": "usd-wallet-demo-001",
+      "currency": "USD",
+      "country": "US",
+      "amount": "10.01",
+      "webhookUrl": "https://merchant.example.com/webhook",
+      "payoutMethod": {
+        "code": "CHIME",
+        "chime": {
+          "name": "Alex Morgan",
+          "phone": "+12025550123",
+          "email": "alex@example.com",
+          "accountNo": "CHIME_ACCOUNT_PLACEHOLDER",
+          "firstName": "Alex",
+          "lastName": "Morgan",
+          "dateOfBirth": "1990-01-02",
+          "countryOfResidence": "US",
+          "stateOfResidence": "CA",
+          "cardCity": "Example City",
+          "cardStreet": "123 Example Street",
+          "cardPostCode": "90001"
+        }
+      }
+    }
+  ]
+}
