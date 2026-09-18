@@ -90,7 +90,7 @@ export const PAYMENT_METHOD_RULES = {
 };
 
 export const PAYOUT_METHOD_RULES = {
-  ARS: { codes: [], required: ['accountNo', 'accountType', 'address', 'documentNumber', 'documentType', 'email', 'firstName', 'lastName', 'phone'], byMethod: {}, allowEmpty: ["address"] },
+  ARS: { codes: [], required: ['accountNo', 'accountType', 'documentNumber', 'documentType', 'email', 'firstName', 'lastName', 'phone'], byMethod: {}, optionalNullableStringsByMethod: {"BANK_TRANSFER": ["address"]} },
   BDT: { codes: ['BD_BKASH', 'BD_NAGAD'], required: ['accountName', 'accountNo', 'email', 'mobile'], byMethod: {} },
   BRL: { codes: [], required: ['key', 'keyType'], byMethod: {} },
   CLP: { codes: [], required: ['accountName', 'accountNo', 'accountType', 'bankCode', 'customerEmail', 'customerPhone', 'documentNumber', 'documentType'], byMethod: {} },

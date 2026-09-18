@@ -99,7 +99,8 @@ function validateMethod(currency, method, rules) {
   }
 
   const need = [...rule.required, ...(rule.byMethod[code] ?? [])];
-  if (!need.length) return;
+  const optionalNullableStrings = rule.optionalNullableStringsByMethod?.[code] ?? [];
+  if (!need.length && !optionalNullableStrings.length) return;
   const extra = present.length ? m[present[0]] : {};
   if (typeof extra !== 'object' || Array.isArray(extra)) {
     throw new RequestError(`sdk: method extra must be an object: ${present[0]}`);
@@ -115,6 +116,12 @@ function validateMethod(currency, method, rules) {
       throw new RequestError(
         `sdk: required extra field is empty: extra.${field} for ${currency} ${code}`,
       );
+    }
+  }
+  for (const field of optionalNullableStrings) {
+    const value = extra?.[field];
+    if (value !== null && value !== undefined && typeof value !== 'string') {
+      throw new RequestError(`sdk: extra.${field} must be a string or null for ${currency} ${code}`);
     }
   }
 }

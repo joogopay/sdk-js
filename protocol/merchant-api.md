@@ -104,13 +104,14 @@ top-level checks are pinned by [`testdata/validation/`](./testdata/validation/):
 every SDK runs the same accept/reject cases, so a rule change that is not
 mirrored in a language fails that language's suite.
 
-Three kinds of check, and only three:
+The SDK applies these checks:
 
 | | |
 |---|---|
 | **Top-level** | The four fields the gateway marks `required` on every create: `merchantOrderNo`, `currency`, `amount`, `webhookUrl` must be non-blank. `amount` must be a **string** matching `^(0\|[1-9][0-9]{0,15})(\.[0-9]{1,2})?$` and greater than zero — the gateway's amount format plus its `DECIMAL(18,2)` bounds; a JSON number is rejected because the gateway expects a string. `webhookUrl` must be an absolute URL starting with `https://`. |
 | **Shape** | `code` non-empty; at most one method extra set; the extra present must be the one that belongs to `code`; if the currency has a method allow-list, `code` must be on it. |
 | **Required** | Fields the gateway requires to be non-empty for that currency, plus any a specific method code adds. |
+| **Optional nullable strings** | Method-scoped fields in `optionalNullableStringsByMethod` may be omitted or set to `null` or a string; other types are rejected. For ARS `BANK_TRANSFER` payouts, omitted, `null` and empty `address` values all mean no address. Non-empty strings are preserved. The other eight recipient fields remain required. |
 
 Two small normalisations happen before the checks: a caller-supplied
 `Idempotency-Key` is trimmed before UUID validation, and the `orderNo` passed to

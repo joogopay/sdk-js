@@ -2,6 +2,15 @@
 
 Versions follow SemVer. Tags are `vX.Y.Z` on this repository.
 
+## v0.1.3 — 2026-09-18
+
+- Needs a platform that accepts an omitted or `null` ARS `address` (platform
+  release of 2026-09-18); against an earlier platform, send `address` as a string.
+- ARS `BANK_TRANSFER` payout `address` is optional. Omitted, `null` and empty
+  strings mean no address; non-empty strings are preserved. Other value types
+  are rejected before sending. The other eight recipient fields remain required,
+  and other currencies and methods retain their existing rules.
+
 ## v0.1.2 — 2026-09-17
 
 - USD payments accept `CASH_APP`; USD payouts accept `CASH_APP`, `PAYPAL` and
