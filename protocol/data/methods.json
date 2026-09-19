@@ -280,14 +280,14 @@
       "value": "PH_GCASH",
       "extra_field": "phGcash",
       "payin": true,
-      "payout": false
+      "payout": true
     },
     {
       "name": "PHMaya",
       "value": "PH_MAYA",
       "extra_field": "phMaya",
       "payin": true,
-      "payout": false
+      "payout": true
     },
     {
       "name": "PHGrab",

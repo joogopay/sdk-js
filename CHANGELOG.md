@@ -2,6 +2,14 @@
 
 Versions follow SemVer. Tags are `vX.Y.Z` on this repository.
 
+## v0.1.4 — 2026-09-19
+
+- Philippine GCash and Maya payouts take the wallet's own code (`PH_GCASH` /
+  `PH_MAYA`) under its own extra field, matching Bangladesh, Indonesia and
+  Pakistan; the channel derives `bankCode` from the code. Every other wallet,
+  GrabPay included, still goes out under `PH_DF_WALLET` with `bankCode` naming
+  the wallet, where it stays required as it is for `PH_DF_BANK`.
+
 ## v0.1.3 — 2026-09-18
 
 - Needs a platform that accepts an omitted or `null` ARS `address` (platform

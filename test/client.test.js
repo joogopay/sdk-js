@@ -499,6 +499,27 @@ test('validation: IDR wallet payouts are accepted under their own extra field', 
     /does not match code/);
 });
 
+test('validation: PH wallet payouts share one code per wallet; bankCode only for the bank', async () => {
+  nextResponse = {};
+  const client = makeClient();
+  const extra = () => ({ accountNo: '09171234567', accountName: 'Juan', email: 'j@example.com', mobile: '09171234567' });
+  const payout = (payoutMethod) => ({
+    merchantOrderNo: 'M1', currency: 'PHP', amount: '100.00', payoutMethod,
+    webhookUrl: 'https://m.example.com/w',
+  });
+
+  for (const [code, field] of [['PH_GCASH', 'phGcash'], ['PH_MAYA', 'phMaya']]) {
+    await client.createPayout(payout({ code, [field]: extra() }));
+  }
+
+  // PH_DF_WALLET is kept for existing integrations; there bankCode names the wallet.
+  for (const code of ['PH_DF_BANK', 'PH_DF_WALLET']) {
+    const field = code === 'PH_DF_BANK' ? 'phDfBank' : 'phDfWallet';
+    await assert.rejects(() => client.createPayout(payout({ code, [field]: extra() })),
+      /extra\.bankCode/);
+  }
+});
+
 // Top-level required/format vectors shared by all SDKs; a failure here is a protocol
 // mismatch in this implementation, not in the vectors.
 

@@ -282,15 +282,24 @@
       "PHP": {
         "codes": [
           "PH_DF_BANK",
-          "PH_DF_WALLET"
+          "PH_DF_WALLET",
+          "PH_GCASH",
+          "PH_MAYA"
         ],
         "required": [
           "accountName",
           "accountNo",
-          "bankCode",
           "email",
           "mobile"
-        ]
+        ],
+        "byMethod": {
+          "PH_DF_BANK": [
+            "bankCode"
+          ],
+          "PH_DF_WALLET": [
+            "bankCode"
+          ]
+        }
       },
       "PKR": {
         "codes": [

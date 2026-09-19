@@ -99,7 +99,7 @@ export const PAYOUT_METHOD_RULES = {
   INR: { codes: ['IN_IFSC', 'IN_UPI'], required: ['email', 'mobile', 'name'], byMethod: {'IN_IFSC': ['account', 'ifsc']} },
   MXN: { codes: [], required: ['accountName', 'accountNo', 'accountType', 'bankCode', 'bankName'], byMethod: {} },
   PEN: { codes: ['BANK_TRANSFER', 'E_WALLET'], required: ['accountName', 'accountNo', 'bankCode', 'customerEmail', 'customerPhone', 'documentNumber', 'documentType'], byMethod: {'BANK_TRANSFER': ['accountType', 'cciNo']} },
-  PHP: { codes: ['PH_DF_BANK', 'PH_DF_WALLET'], required: ['accountName', 'accountNo', 'bankCode', 'email', 'mobile'], byMethod: {} },
+  PHP: { codes: ['PH_DF_BANK', 'PH_DF_WALLET', 'PH_GCASH', 'PH_MAYA'], required: ['accountName', 'accountNo', 'email', 'mobile'], byMethod: {'PH_DF_BANK': ['bankCode'], 'PH_DF_WALLET': ['bankCode']} },
   PKR: { codes: ['PK_BANK', 'PK_EASYPAISA', 'PK_JAZZCASH'], required: ['accountNo', 'cnic', 'mobile'], byMethod: {'PK_BANK': ['bankCode']} },
   TRY: { codes: [], required: ['accountName', 'accountNo'], byMethod: {'BANK_TRANSFER': ['bankCode', 'bankName']} },
   USD: { codes: ['CASH_APP', 'PAYPAL', 'CHIME'], required: ['name', 'phone', 'email', 'accountNo', 'firstName', 'lastName', 'dateOfBirth', 'countryOfResidence', 'stateOfResidence', 'cardCity', 'cardStreet', 'cardPostCode'], byMethod: {} },

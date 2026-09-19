@@ -10,6 +10,12 @@
   and other currencies and methods retain their existing rules.
 - `optionalNullableStringsByMethod` defines method-scoped optional string
   fields that also accept `null`, shared by all five language validators.
+- Philippine GCash and Maya follow the same shape as every other country:
+  `PH_GCASH` and `PH_MAYA` are payout methods as well as pay-in ones, and the
+  channel derives `bankCode` from the method code, so a merchant no longer sends
+  it. Those two cover nearly all Philippine payout volume; every other wallet,
+  GrabPay included, still goes out under the generic `PH_DF_WALLET` code, where
+  `bankCode` names the wallet and stays required as it is for `PH_DF_BANK`.
 
 - `data/methods.json`: `ID_DANA` / `ID_OVO` / `ID_GOPAY` / `ID_LINKAJA` / `ID_SHOPEEPAY`
   are payout methods as well (Indonesia wallet payouts). The extra field is the
