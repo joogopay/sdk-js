@@ -2,6 +2,18 @@
 
 Versions follow SemVer. Tags are `vX.Y.Z` on this repository.
 
+## v0.1.5 — 2026-09-21
+
+- Method-code allowlists now cover every currency and direction the gateway
+  validates, so a code the gateway would refuse is rejected before sending as
+  "method not available" instead of coming back as an API error. Newly listed:
+  pay-in `ARS` (`BANK_TRANSFER`, `CVU`, `QRIS`), `BRL` (`PIX`), `CLP` (`KHIPU`,
+  `MACH`, `PAGO46`, `WEBPAY`), `COP` (`BREB`, `NEQUI`, `PSE`), `MXN` (`CASH`,
+  `OXXO`, `SPEI`), `TRY` (`BANK_TRANSFER`); payout `ARS`, `CLP`, `MXN`
+  (`BANK_TRANSFER`), `BRL` (`PIX`), `COP` (`BANK_CARD`, `BANK_TRANSFER`, `BREB`,
+  `TRANSFIYA`), `IDR` (`ID_BANK_TRANSFER` and the five wallets), `TRY`
+  (`BANK_TRANSFER`, `PAPARA`). Types and constants are unchanged.
+
 ## v0.1.4 — 2026-09-19
 
 - Philippine GCash and Maya payouts take the wallet's own code (`PH_GCASH` /

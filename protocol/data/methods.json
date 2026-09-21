@@ -1,4 +1,9 @@
 {
+  "$comment": [
+    "Method code -> the named field carrying its extra payload, shared by the five language SDKs and the merchant skill.",
+    "payin / payout say whether any currency accepts the code in that direction; scripts/gen-method-rules.py asserts that against method-rules.json both ways.",
+    "A code no currency accepts keeps its entry: the SDKs still map its field name, and removing it would rewrite every generated rule table. The skill reference skips it instead."
+  ],
   "methods": [
     {
       "name": "PIX",
@@ -11,14 +16,14 @@
       "name": "PagoFacil",
       "value": "PAGO_FACIL",
       "extra_field": "pagoFacil",
-      "payin": true,
+      "payin": false,
       "payout": false
     },
     {
       "name": "Rapipago",
       "value": "RAPIPAGO",
       "extra_field": "rapipago",
-      "payin": true,
+      "payin": false,
       "payout": false
     },
     {
@@ -53,7 +58,7 @@
       "name": "OXXO",
       "value": "OXXO",
       "extra_field": null,
-      "payin": false,
+      "payin": true,
       "payout": false
     },
     {
@@ -81,7 +86,7 @@
       "name": "Transfiya",
       "value": "TRANSFIYA",
       "extra_field": "transfiya",
-      "payin": true,
+      "payin": false,
       "payout": true
     },
     {
@@ -123,7 +128,7 @@
       "name": "ServiFacil",
       "value": "SERVIFACIL",
       "extra_field": "serviFacil",
-      "payin": true,
+      "payin": false,
       "payout": false
     },
     {
@@ -160,57 +165,57 @@
       "name": "CreditCard",
       "value": "CREDIT_CARD",
       "extra_field": "creditCard",
-      "payin": true,
+      "payin": false,
       "payout": false
     },
     {
       "name": "ApplePay",
       "value": "APPLE_PAY",
       "extra_field": "applePay",
-      "payin": true,
+      "payin": false,
       "payout": false
     },
     {
       "name": "GooglePay",
       "value": "GOOGLE_PAY",
       "extra_field": "googlePay",
-      "payin": true,
+      "payin": false,
       "payout": false
     },
     {
       "name": "Neteller",
       "value": "NETELLER",
       "extra_field": "neteller",
-      "payin": true,
+      "payin": false,
       "payout": false
     },
     {
       "name": "Skrill",
       "value": "SKRILL",
       "extra_field": "skrill",
-      "payin": true,
+      "payin": false,
       "payout": false
     },
     {
       "name": "USDTTRC20",
       "value": "USDT-TRC20",
       "extra_field": "usdtTrc20",
-      "payin": true,
-      "payout": true
+      "payin": false,
+      "payout": false
     },
     {
       "name": "USDTERC20",
       "value": "USDT-ERC20",
       "extra_field": "usdtErc20",
-      "payin": true,
-      "payout": true
+      "payin": false,
+      "payout": false
     },
     {
       "name": "USDTBEP20",
       "value": "USDT-BEP20",
       "extra_field": "usdtBep20",
-      "payin": true,
-      "payout": true
+      "payin": false,
+      "payout": false
     },
     {
       "name": "BDBkash",
@@ -356,21 +361,21 @@
       "name": "THBankCard",
       "value": "TH_BANK_CARD",
       "extra_field": "thBankCard",
-      "payin": true,
+      "payin": false,
       "payout": false
     },
     {
       "name": "THTruemoney",
       "value": "TH_TRUEMONEY",
       "extra_field": "thTruemoney",
-      "payin": true,
+      "payin": false,
       "payout": false
     },
     {
       "name": "THPromptpay",
       "value": "TH_PROMPTPAY",
       "extra_field": "thPromptpay",
-      "payin": true,
+      "payin": false,
       "payout": false
     },
     {
@@ -392,14 +397,14 @@
       "value": "P2P",
       "extra_field": "p2p",
       "payin": false,
-      "payout": true
+      "payout": false
     },
     {
       "name": "SBP",
       "value": "SBP",
       "extra_field": "sbp",
       "payin": false,
-      "payout": true
+      "payout": false
     },
     {
       "name": "IDBankTransfer",
@@ -434,7 +439,7 @@
       "value": "TH_BANK_TRANSFER",
       "extra_field": "thBankTransfer",
       "payin": false,
-      "payout": true
+      "payout": false
     },
     {
       "name": "INIFSC",

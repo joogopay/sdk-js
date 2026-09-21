@@ -2,7 +2,7 @@
   "$comment": [
     "Method codes and required extra fields of the merchant API; the single source of truth shared by the five language SDKs.",
     "Extracted from the gateway's payment and payout validators and checked by hand.",
-    "An empty codes list means the gateway has no method-code allowlist for that currency; the SDK must not reject on that basis.",
+    "codes is the gateway's method-code allowlist for that currency and direction; the SDK rejects any other code before sending. An empty list means no allowlist is known and the SDK must not reject on that basis.",
     "required fields are always mandatory; byMethod lists the extra fields a specific method code requires.",
     "The SDK only checks structure, presence and explicitly listed field types. Format checks (phone-number length, email, IFSC length, ...) stay with the gateway:",
     "a copy in the SDK would drift from the gateway, and merchants could only get the fix by waiting for an SDK release.",
@@ -12,7 +12,11 @@
   "rules": {
     "payment": {
       "ARS": {
-        "codes": [],
+        "codes": [
+          "BANK_TRANSFER",
+          "CVU",
+          "QRIS"
+        ],
         "required": [
           "documentNumber",
           "documentType",
@@ -41,11 +45,18 @@
         ]
       },
       "BRL": {
-        "codes": [],
+        "codes": [
+          "PIX"
+        ],
         "required": []
       },
       "CLP": {
-        "codes": [],
+        "codes": [
+          "KHIPU",
+          "MACH",
+          "PAGO46",
+          "WEBPAY"
+        ],
         "required": [
           "customerEmail",
           "customerName",
@@ -54,7 +65,11 @@
         ]
       },
       "COP": {
-        "codes": [],
+        "codes": [
+          "BREB",
+          "NEQUI",
+          "PSE"
+        ],
         "required": [],
         "byMethod": {
           "BREB": [
@@ -94,7 +109,11 @@
         ]
       },
       "MXN": {
-        "codes": [],
+        "codes": [
+          "CASH",
+          "OXXO",
+          "SPEI"
+        ],
         "required": []
       },
       "PEN": {
@@ -133,7 +152,9 @@
         "required": []
       },
       "TRY": {
-        "codes": [],
+        "codes": [
+          "BANK_TRANSFER"
+        ],
         "required": [
           "customerName"
         ]
@@ -152,7 +173,9 @@
     },
     "payout": {
       "ARS": {
-        "codes": [],
+        "codes": [
+          "BANK_TRANSFER"
+        ],
         "required": [
           "accountNo",
           "accountType",
@@ -180,14 +203,18 @@
         ]
       },
       "BRL": {
-        "codes": [],
+        "codes": [
+          "PIX"
+        ],
         "required": [
           "key",
           "keyType"
         ]
       },
       "CLP": {
-        "codes": [],
+        "codes": [
+          "BANK_TRANSFER"
+        ],
         "required": [
           "accountName",
           "accountNo",
@@ -200,7 +227,12 @@
         ]
       },
       "COP": {
-        "codes": [],
+        "codes": [
+          "BANK_CARD",
+          "BANK_TRANSFER",
+          "BREB",
+          "TRANSFIYA"
+        ],
         "required": [
           "customerEmail",
           "customerName",
@@ -223,7 +255,14 @@
         }
       },
       "IDR": {
-        "codes": [],
+        "codes": [
+          "ID_BANK_TRANSFER",
+          "ID_DANA",
+          "ID_GOPAY",
+          "ID_LINKAJA",
+          "ID_OVO",
+          "ID_SHOPEEPAY"
+        ],
         "required": [
           "accountName",
           "bankCode",
@@ -249,7 +288,9 @@
         }
       },
       "MXN": {
-        "codes": [],
+        "codes": [
+          "BANK_TRANSFER"
+        ],
         "required": [
           "accountName",
           "accountNo",
@@ -319,7 +360,10 @@
         }
       },
       "TRY": {
-        "codes": [],
+        "codes": [
+          "BANK_TRANSFER",
+          "PAPARA"
+        ],
         "required": [
           "accountName",
           "accountNo"

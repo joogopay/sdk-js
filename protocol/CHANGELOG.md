@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- `methods.json`: the 17 codes no currency accepts are flagged `payin`/`payout`
+  false (`APPLE_PAY`, `CREDIT_CARD`, `GOOGLE_PAY`, `NETELLER`, `P2P`, `PAGO_FACIL`,
+  `RAPIPAGO`, `SBP`, `SERVIFACIL`, `SKRILL`, `TH_BANK_CARD`, `TH_BANK_TRANSFER`,
+  `TH_PROMPTPAY`, `TH_TRUEMONEY`, three `USDT-*`). Entries stay so the SDKs keep
+  mapping their extra field names; the flags now mean "some currency accepts this".
+- `currencies.json` drops `RUB` and `THB`, `countries.json` drops `RU` and `TH`:
+  the gateway has no validator for either currency.
+- `method-rules.json` fills the `codes` allowlist for every currency and
+  direction the gateway validates: pay-in `ARS`, `BRL`, `CLP`, `COP`, `MXN`,
+  `TRY` and payout `ARS`, `BRL`, `CLP`, `COP`, `IDR`, `MXN`, `TRY`. An empty list
+  now only means that no allowlist is known.
+- `methods.json`: `OXXO` is a pay-in method; `TRANSFIYA` is payout only.
 - Deploy API support for omitted and `null` addresses before upgrading to this
   SDK contract; older API deployments may still require an address string.
 - ARS `BANK_TRANSFER` payout `address` is optional. Omitted, `null` and empty
