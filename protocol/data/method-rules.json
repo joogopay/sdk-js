@@ -265,6 +265,7 @@
         ],
         "required": [
           "accountName",
+          "accountNo",
           "bankCode",
           "email",
           "mobile"

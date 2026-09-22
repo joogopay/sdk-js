@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- `method-rules.json`: `IDR` payouts now require `accountNo` for every method,
+  wallets included (`ID_DANA`, `ID_OVO`, `ID_GOPAY`, `ID_LINKAJA`, `ID_SHOPEEPAY`).
+  The gateway takes the recipient account from `accountNo` for all Southeast
+  Asia payouts: for a wallet it is the phone number registered to the wallet;
+  `mobile` is the recipient contact number and never stands in for `accountNo`.
+  This supersedes the earlier note that `accountNo` may be omitted for wallets.
 - `methods.json`: the 17 codes no currency accepts are flagged `payin`/`payout`
   false (`APPLE_PAY`, `CREDIT_CARD`, `GOOGLE_PAY`, `NETELLER`, `P2P`, `PAGO_FACIL`,
   `RAPIPAGO`, `SBP`, `SERVIFACIL`, `SKRILL`, `TH_BANK_CARD`, `TH_BANK_TRANSFER`,

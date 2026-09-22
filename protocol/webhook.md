@@ -1,8 +1,9 @@
 # Webhook
 
 The platform delivers order events to the merchant's `webhookUrl` as a signed
-`POST`. The body is plaintext JSON (not encrypted). The signature uses the
-platform's Ed25519 key under RFC 9421, with the label `platform`.
+`POST` over HTTPS. The body is plaintext JSON protected in transit by TLS, without
+additional body encryption. The signature uses the platform's Ed25519 key under
+RFC 9421, with the label `platform`.
 
 ## Headers
 
@@ -57,13 +58,22 @@ successful handling; a non-2xx response causes the platform to retry.
   "amount": "100.50",
   "paidAmount": "100.50",
   "channelTradeNo": "…",
+  "payer": { "name": "Maria Silva", "documentNumber": "01234567890" },
   "attach": "…",
   "failure": { "code": 0, "msg": "…", "message": "…" }
 }
 ```
 
-`orderType` is `PAYMENT` or `PAYOUT`; payout payloads omit `paidAmount`. Amounts
-are decimal strings. `failure` is present when `status` is `FAILED`; branch on
+`orderType` is `PAYMENT` or `PAYOUT`; payout payloads omit `paidAmount` and `payer`.
+Amounts are decimal strings. `failure` is present when `status` is `FAILED`; branch on
 `failure.msg`, use `failure.message` for display only.
 
 Fixed vectors: [`testdata/webhook/`](./testdata/webhook/).
+
+Payment webhooks may include `payer.name` and `payer.documentNumber` from the
+channel-reported actual payer, never copied from the create request. Unavailable
+fields are omitted; the whole object is omitted when both fields are unavailable.
+Document numbers remain strings, including leading zeros. No document type is
+inferred. Existing notification records keep their original body on retry and
+are not backfilled with payer details; merchants can use the authenticated
+payment query to retrieve available details. Redact payer details in logs.

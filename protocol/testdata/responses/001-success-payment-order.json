@@ -12,6 +12,10 @@
       "merchantOrderNo": "M001",
       "orderNo": "ORD202605190001",
       "paidAmount": "100.00",
+      "payer": {
+        "documentNumber": "01234567890",
+        "name": "Maria Silva"
+      },
       "paymentMethod": "PIX",
       "status": "SUCCEEDED",
       "updatedAt": 1717200060

@@ -47,6 +47,28 @@ Every language SDK follows these:
    such as `"100.50"`, never a JSON number. SDKs keep it as a string end to end.
 7. SDKs read no local env, emit no logs, print no body, and do not panic.
 
+## Actual payer in payment queries and webhooks
+
+Authenticated `GET /api/v1/payments` and payment webhooks can return an optional
+`payer` object:
+
+```json
+{"payer":{"name":"Maria Silva","documentNumber":"01234567890"}}
+```
+
+These are actual payer details reported by the payment channel, not the payer
+submitted in the create request. Either field can be omitted when unavailable;
+the whole object is omitted when neither is available. Document numbers remain
+strings, including leading zeros. No document type is inferred.
+
+Payment query requests must be signed by the merchant that owns the order. A valid signature
+from another merchant does not grant access. Use HTTPS with certificate
+verification, and redact names and document numbers in logs. The response uses
+ordinary JSON protected by TLS, without additional body encryption. These fields
+are not returned by create, public checkout, payout query, or payout webhooks.
+Payment webhooks carry the available payer in their signed JSON body over HTTPS;
+see [webhook.md](./webhook.md).
+
 ## Hosted-checkout group
 
 Endpoints 9–11 are served by the gateway without the signature interceptor, so a

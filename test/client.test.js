@@ -183,6 +183,7 @@ test('response vector 001: success', async () => {
   assert.equal(order.orderNo, 'ORD202605190001');
   assert.equal(order.status, sdk.STATUS_SUCCEEDED);
   assert.equal(order.action.qrCode, '00020-qr');
+  assert.deepEqual(order.payer, { name: 'Maria Silva', documentNumber: '01234567890' });
 });
 
 test('response vector 002: business error decodes to APIError', async () => {
@@ -263,7 +264,53 @@ test('parses a payment webhook', async () => {
   assert.equal(hook.status, sdk.STATUS_SUCCEEDED);
   assert.equal(hook.amount, '100.50');
   assert.equal(hook.paidAmount, '100.50');
+  assert.equal(hook.payer, undefined);
 });
+
+test('parses channel-reported payer in a signed payment webhook', async () => {
+  const vector = load('webhook/002-payment-payer.json');
+  const hook = await makeClient({
+    now: () => 1787803300,
+    platformWebhookPublicKeys: {
+      [vector.key.platformWebhookKeyId]: vector.key.platformWebhookPublicKeyBase64,
+    },
+  }).parsePaymentWebhook({
+    method: vector.input.method,
+    path: vector.input.path,
+    rawQuery: vector.input.rawQuery,
+    headers: vector.headers,
+    body: Buffer.from(vector.body, 'utf8'),
+  });
+  assert.deepEqual(hook.payer, { name: 'Maria Silva', documentNumber: '01234567890' });
+  assert.equal(hook.amount, '100.50');
+  assert.equal(hook.paidAmount, '100.50');
+});
+
+for (const field of ['name', 'documentNumber']) {
+  for (const refreshDigest of [false, true]) {
+    test(`payment webhook rejects altered payer.${field}, refreshed digest=${refreshDigest}`, async () => {
+      const vector = load('webhook/002-payment-payer.json');
+      const payload = JSON.parse(vector.body);
+      payload.payer[field] = field === 'name' ? 'Other Name' : '11234567890';
+      const body = Buffer.from(JSON.stringify(payload), 'utf8');
+      const headers = { ...vector.headers };
+      if (refreshDigest) headers['Content-Digest'] = p.contentDigestSha256(body);
+      const client = makeClient({
+        now: () => 1787803300,
+        platformWebhookPublicKeys: {
+          [vector.key.platformWebhookKeyId]: vector.key.platformWebhookPublicKeyBase64,
+        },
+      });
+      await assert.rejects(() => client.parsePaymentWebhook({
+        method: vector.input.method,
+        path: vector.input.path,
+        rawQuery: vector.input.rawQuery,
+        headers,
+        body,
+      }), refreshDigest ? p.InvalidSignatureError : sdk.WebhookError);
+    });
+  }
+}
 
 test('webhook rejects an unknown keyId', async () => {
   const client = makeClient({
@@ -482,7 +529,8 @@ test('validation: conditional required fields; flattening them would wrongly rej
 test('validation: IDR wallet payouts are accepted under their own extra field', async () => {
   nextResponse = {};
   const client = makeClient();
-  const extra = (wallet) => ({ bankCode: wallet, accountName: 'Budi', email: 'b@example.com', mobile: '081234567890' });
+  // accountNo is the wallet-registered phone number and receives the funds; mobile is a contact number.
+  const extra = (wallet) => ({ bankCode: wallet, accountNo: '081234567890', accountName: 'Budi', email: 'b@example.com', mobile: '089999999999' });
   const payout = (payoutMethod) => ({
     merchantOrderNo: 'M1', currency: 'IDR', amount: '10000', payoutMethod,
     webhookUrl: 'https://m.example.com/w',
@@ -497,6 +545,9 @@ test('validation: IDR wallet payouts are accepted under their own extra field', 
 
   await assert.rejects(() => client.createPayout(payout({ code: 'ID_DANA', idOvo: extra('OVO') })),
     /does not match code/);
+  // accountNo is required for wallets as well; mobile never stands in for it.
+  await assert.rejects(() => client.createPayout(payout({ code: 'ID_DANA', idDana: { ...extra('DANA'), accountNo: '' } })),
+    /extra\.accountNo/);
 });
 
 test('validation: PH wallet payouts share one code per wallet; bankCode only for the bank', async () => {

@@ -2,6 +2,20 @@
 
 Versions follow SemVer. Tags are `vX.Y.Z` on this repository.
 
+## v0.1.6 — 2026-09-22
+
+- `IDR` payouts: `accountNo` is now required for every method, wallets included
+  (`ID_DANA`, `ID_OVO`, `ID_GOPAY`, `ID_LINKAJA`, `ID_SHOPEEPAY`), matching the
+  gateway. The recipient account is taken from `accountNo` (the wallet-registered
+  phone number for wallets); `mobile` is a contact number and never stands in
+  for it. A wallet payout without `accountNo` is now rejected before sending as
+  a missing required field instead of coming back as a gateway error.
+- Authenticated payment queries and signed payment webhooks may carry the optional
+  channel-reported `payer.name` and `payer.documentNumber`, reported by the channel
+  and never copied from the create request. Responses are returned as parsed JSON,
+  so both fields arrive unchanged and no API change was needed. Older payloads
+  without payer remain supported.
+
 ## v0.1.5 — 2026-09-21
 
 - Method-code allowlists now cover every currency and direction the gateway

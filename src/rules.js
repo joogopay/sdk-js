@@ -95,7 +95,7 @@ export const PAYOUT_METHOD_RULES = {
   BRL: { codes: ['PIX'], required: ['key', 'keyType'], byMethod: {} },
   CLP: { codes: ['BANK_TRANSFER'], required: ['accountName', 'accountNo', 'accountType', 'bankCode', 'customerEmail', 'customerPhone', 'documentNumber', 'documentType'], byMethod: {} },
   COP: { codes: ['BANK_CARD', 'BANK_TRANSFER', 'BREB', 'TRANSFIYA'], required: ['customerEmail', 'customerName', 'customerPhone', 'documentNumber', 'documentType'], byMethod: {'BANK_CARD': ['accountNo', 'bankName'], 'BANK_TRANSFER': ['accountNo', 'bankName'], 'BREB': ['accountNo']} },
-  IDR: { codes: ['ID_BANK_TRANSFER', 'ID_DANA', 'ID_GOPAY', 'ID_LINKAJA', 'ID_OVO', 'ID_SHOPEEPAY'], required: ['accountName', 'bankCode', 'email', 'mobile'], byMethod: {} },
+  IDR: { codes: ['ID_BANK_TRANSFER', 'ID_DANA', 'ID_GOPAY', 'ID_LINKAJA', 'ID_OVO', 'ID_SHOPEEPAY'], required: ['accountName', 'accountNo', 'bankCode', 'email', 'mobile'], byMethod: {} },
   INR: { codes: ['IN_IFSC', 'IN_UPI'], required: ['email', 'mobile', 'name'], byMethod: {'IN_IFSC': ['account', 'ifsc']} },
   MXN: { codes: ['BANK_TRANSFER'], required: ['accountName', 'accountNo', 'accountType', 'bankCode', 'bankName'], byMethod: {} },
   PEN: { codes: ['BANK_TRANSFER', 'E_WALLET'], required: ['accountName', 'accountNo', 'bankCode', 'customerEmail', 'customerPhone', 'documentNumber', 'documentType'], byMethod: {'BANK_TRANSFER': ['accountType', 'cciNo']} },
