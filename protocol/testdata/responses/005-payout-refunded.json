@@ -1,0 +1,22 @@
+{
+  "httpStatus": 200,
+  "body": {
+    "code": 200,
+    "msg": "OK",
+    "data": {
+      "orderNo": "PO202609240001",
+      "merchantOrderNo": "M202609240001",
+      "status": "REFUNDED",
+      "currency": "MXN",
+      "amount": "100.00",
+      "refundNo": "R202609240001",
+      "refundAmount": "100.00",
+      "refundTime": 1790208000000,
+      "payoutMethod": "SPEI",
+      "action": {},
+      "createdAt": 1790207000000,
+      "updatedAt": 1790208000000
+    }
+  },
+  "expectedOutcome": "success: payout refund fields retain their values and money strings"
+}

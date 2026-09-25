@@ -1,0 +1,23 @@
+{
+  "body": "{\"eventId\":\"evt_00000000000000000000000002\",\"orderType\":\"PAYOUT\",\"orderNo\":\"PO202609240001\",\"merchantOrderNo\":\"M202609240001\",\"status\":\"REFUNDED\",\"currency\":\"MXN\",\"amount\":\"100.00\",\"refundNo\":\"R202609240001\",\"refundAmount\":\"100.00\",\"refundTime\":1790208000000}",
+  "expected": {
+    "signature": "platform=:8+Dt+KvGhjbA+fNNwJAYvhAWQjNPGzs9pWXlCEQ5liIikhBr6+ZAZaBFIQoaJsf7KshfVshTwp+dLVXDp3W6Cg==:",
+    "signatureBase": "\"@method\": POST\n\"@path\": /webhook/payouts\n\"@query\": ?tenant=main%2Fmx\n\"content-type\": application/json\n\"content-digest\": sha-256=:O3W65spKRV9KF/fBcldvZ0xc6SQ+AM7pDGPTAP5x1Nc=:\n\"webhook-event-id\": evt_00000000000000000000000002\n\"@signature-params\": (\"@method\" \"@path\" \"@query\" \"content-type\" \"content-digest\" \"webhook-event-id\");created=1787803200;expires=1787803500;nonce=\"b7754a6c-4a9c-4cf0-b77f-6f2d4b7e5f5a\";keyid=\"wk_test_refund\";alg=\"ed25519\""
+  },
+  "headers": {
+    "Content-Type": "application/json",
+    "Content-Digest": "sha-256=:O3W65spKRV9KF/fBcldvZ0xc6SQ+AM7pDGPTAP5x1Nc=:",
+    "Webhook-Event-Id": "evt_00000000000000000000000002",
+    "Signature-Input": "platform=(\"@method\" \"@path\" \"@query\" \"content-type\" \"content-digest\" \"webhook-event-id\");created=1787803200;expires=1787803500;nonce=\"b7754a6c-4a9c-4cf0-b77f-6f2d4b7e5f5a\";keyid=\"wk_test_refund\";alg=\"ed25519\"",
+    "Signature": "platform=:8+Dt+KvGhjbA+fNNwJAYvhAWQjNPGzs9pWXlCEQ5liIikhBr6+ZAZaBFIQoaJsf7KshfVshTwp+dLVXDp3W6Cg==:"
+  },
+  "key": {
+    "platformWebhookKeyId": "wk_test_refund",
+    "platformWebhookPublicKeyBase64": "Ivwpd5Lwtv/Av8/bftsMCqFOAlo2XsDjQuhuOCnLdLY="
+  },
+  "input": {
+    "method": "POST",
+    "path": "/webhook/payouts",
+    "rawQuery": "tenant=main%2Fmx"
+  }
+}

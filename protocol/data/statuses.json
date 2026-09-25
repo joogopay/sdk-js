@@ -17,6 +17,9 @@
     },
     {
       "value": "CANCELED"
+    },
+    {
+      "value": "REFUNDED"
     }
   ]
 }

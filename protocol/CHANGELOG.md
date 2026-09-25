@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add payout refund query and webhook results with `REFUNDED`, `refundNo`, `refundAmount`, and `refundTime`.
+
 - `method-rules.json`: `IDR` payouts now require `accountNo` for every method,
   wallets included (`ID_DANA`, `ID_OVO`, `ID_GOPAY`, `ID_LINKAJA`, `ID_SHOPEEPAY`).
   The gateway takes the recipient account from `accountNo` for all Southeast

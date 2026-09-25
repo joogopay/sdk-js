@@ -33,8 +33,11 @@ by the current seven-day cleanup policy, a later manual redelivery is a new
 notification event and may use a new `eventId`.
 
 The merchant must deduplicate delivery side effects by `eventId`, and make order
-state updates idempotent by `orderNo` or `merchantOrderNo`. Return `2xx` after
-successful handling; a non-2xx response causes the platform to retry.
+state updates idempotent by `orderNo` or `merchantOrderNo`. Return `2xx` only after
+successful handling or durable acceptance into your processing queue. If acceptance
+fails, return a non-2xx HTTP status so the platform retries. After accepting a task,
+retry temporary query or processing failures in your own queue. A business error
+in an HTTP 200 body does not request redelivery.
 
 ## Verification order (merchant SDK)
 
@@ -77,3 +80,37 @@ Document numbers remain strings, including leading zeros. No document type is
 inferred. Existing notification records keep their original body on retry and
 are not backfilled with payer details; merchants can use the authenticated
 payment query to retrieve available details. Redact payer details in logs.
+
+## Payout returns
+
+A successful payout may later be returned by the upstream channel. After the
+platform credits the merchant refund, it sends `status: "REFUNDED"` to the original
+payout `webhookUrl`. This is a separate event with a new `eventId`; retries reuse
+that event ID and its body. The original success event remains unchanged.
+
+```json
+{
+  "eventId": "evt_00000000000000000000000002",
+  "orderType": "PAYOUT",
+  "orderNo": "PO202609240001",
+  "merchantOrderNo": "M202609240001",
+  "status": "REFUNDED",
+  "currency": "MXN",
+  "amount": "100.00",
+  "refundNo": "R202609240001",
+  "refundAmount": "100.00",
+  "refundTime": 1790208000000
+}
+```
+
+`refundNo` identifies the refund. `refundAmount` is the full returned principal in
+major currency units as a decimal string, not the net balance credit after fees.
+`refundTime` is the refund posting time in Unix milliseconds, unchanged on retry.
+Automatic retries stop on HTTP 2xx or 24 hours after the refund notification is
+created, independently of the original payout's creation time. Failed records
+are retained, and the payout query remains available after automatic retries stop.
+These fields are payout-only and omitted until refund posting completes. Query
+the original payout to confirm the same result. Deduplicate refund posting by the
+original order or refund number, and never let a late success event revert a
+refunded order. This contract does not introduce payment refunds, partial refunds,
+or a merchant refund-request endpoint.

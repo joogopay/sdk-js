@@ -693,3 +693,20 @@ for (const req of (() => {
     await create(formats);
   });
 }
+
+test('payout refund query and signed webhook preserve refund fields', async () => {
+  const response = load('responses/005-payout-refunded.json');
+  nextResponse = { status: response.httpStatus, body: response.body };
+  const order = await makeClient().queryPayoutByOrderNo('PO202609240001');
+  const vector = load('webhook/003-payout-refunded.json');
+  const hook = await makeClient({
+    now: () => 1787803300,
+    platformWebhookPublicKeys: { [vector.key.platformWebhookKeyId]: vector.key.platformWebhookPublicKeyBase64 },
+  }).parsePayoutWebhook({ ...vector.input, headers: vector.headers, body: Buffer.from(vector.body) });
+  for (const payload of [order, hook]) {
+    assert.equal(payload.status, sdk.STATUS_REFUNDED);
+    assert.equal(payload.refundNo, 'R202609240001');
+    assert.equal(payload.refundAmount, '100.00');
+    assert.equal(payload.refundTime, 1790208000000);
+  }
+});

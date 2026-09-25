@@ -47,6 +47,16 @@ Every language SDK follows these:
    such as `"100.50"`, never a JSON number. SDKs keep it as a string end to end.
 7. SDKs read no local env, emit no logs, print no body, and do not panic.
 
+## Payout refund results
+
+Authenticated payout queries can return `REFUNDED` after an upstream full return
+is confirmed and the merchant refund is credited. The response adds `refundNo`,
+`refundAmount` (full principal as a decimal string), and `refundTime` (posting time
+in Unix milliseconds). Before posting completes, the original payment result is
+retained and these fields are omitted. The original order identifiers and `amount`
+are unchanged. See [Payout returns](./webhook.md#payout-returns) for notification and
+idempotency rules. This status does not apply to payment or checkout results.
+
 ## Actual payer in payment queries and webhooks
 
 Authenticated `GET /api/v1/payments` and payment webhooks can return an optional

@@ -2,6 +2,10 @@
 
 Versions follow SemVer. Tags are `vX.Y.Z` on this repository.
 
+## v0.2.0 — 2026-09-25
+
+- Support payout `REFUNDED` results with `refundNo`, `refundAmount`, and `refundTime`; payment statuses are unchanged.
+
 ## v0.1.6 — 2026-09-22
 
 - `IDR` payouts: `accountNo` is now required for every method, wallets included
