@@ -121,6 +121,27 @@ export class Client {
     return this.#write('/api/v1/payouts', req, idempotencyKey);
   }
 
+  /**
+   * Submits the payer's transfer reference (for example an India UPI UTR) for a
+   * payment order that is still PROCESSING, so the platform can have the channel
+   * match it. Identify the order by exactly one of orderNo or merchantOrderNo.
+   *
+   * Resolving only means the channel accepted the reference; the final status
+   * still arrives by webhook or query. The reference format is validated by the
+   * platform per currency, not here.
+   */
+  async supplementPayment({ orderNo, merchantOrderNo, tradeNo } = {}, { idempotencyKey } = {}) {
+    const trade = String(tradeNo ?? '').trim();
+    if (!trade) throw new RequestError('sdk: required field is empty: tradeNo');
+    const no = String(orderNo ?? '').trim();
+    const merchantNo = String(merchantOrderNo ?? '').trim();
+    if (Boolean(no) === Boolean(merchantNo)) {
+      throw new RequestError('sdk: exactly one of orderNo or merchantOrderNo is required');
+    }
+    const body = no ? { orderNo: no, tradeNo: trade } : { merchantOrderNo: merchantNo, tradeNo: trade };
+    return this.#write('/api/v1/payments/trade-no', body, idempotencyKey);
+  }
+
   queryPaymentByOrderNo(orderNo) {
     return this.#read('/api/v1/payments', { orderNo });
   }

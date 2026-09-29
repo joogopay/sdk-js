@@ -2,7 +2,13 @@
 
 ## Unreleased
 
+- Add `POST /api/v1/payments/trade-no` (`SupplementPayment`): signed merchant-side
+  submission of the payer's transfer reference for a `PROCESSING` pay-in.
 - Add payout refund query and webhook results with `REFUNDED`, `refundNo`, `refundAmount`, and `refundTime`.
+- `ARS` payouts: `accountType` accepts `ALIAS` next to `CBU` and `CVU`; for `ALIAS`
+  the `accountNo` carries the alias (for example `miempresa.cbu`) instead of a digit
+  string. `method-rules.json` is unchanged: it constrains which fields are required,
+  not their values.
 
 - `method-rules.json`: `IDR` payouts now require `accountNo` for every method,
   wallets included (`ID_DANA`, `ID_OVO`, `ID_GOPAY`, `ID_LINKAJA`, `ID_SHOPEEPAY`).

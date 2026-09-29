@@ -115,6 +115,25 @@ The wire protocol is in [`protocol/webhook.md`](https://github.com/joogopay/sdk-
   digest, event id, time window and Ed25519 signature. Respond 2xx once handled and
   deduplicate by `eventId`.
 
+### Supplementing a payment with the payer's transfer reference
+
+When a payment stays `PROCESSING` and the payer has a transfer reference (for example
+a 12-digit UPI UTR), submit it with `supplementPayment` so the platform can have the
+channel match the transfer. Identify the order by exactly one of `orderNo` or
+`merchantOrderNo`. The request is signed and encrypted like `createPayment` and
+resolves with the payment order.
+
+```js
+const order = await client.supplementPayment({ orderNo: 'P20260101001', tradeNo: '123456789012' });
+```
+
+Resolving only means the channel accepted the reference; the final status still
+arrives by webhook or query. The reference format is validated by the platform, not
+the SDK. `APIError` `msg` values to expect: `INVALID_FIELD` (bad or missing
+`tradeNo`), `ORDER_NOT_FOUND`, `IDEMPOTENCY_CONFLICT` (the order is no longer
+`PROCESSING`), `UNSUPPORTED_METHOD`, and `CHANNEL_ERROR` (the channel did not accept
+the reference; the order stays `PROCESSING`).
+
 ## Amounts
 
 Amounts, fees and rates in requests, responses, webhooks, balances, rates and receipts

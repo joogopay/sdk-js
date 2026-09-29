@@ -34,6 +34,15 @@
       "response": "PaymentOrder"
     },
     {
+      "sdk_method": "SupplementPayment",
+      "http": "POST",
+      "path": "/api/v1/payments/trade-no",
+      "signed": true,
+      "encryptable_body": true,
+      "request": "SupplementPaymentReq",
+      "response": "PaymentOrder"
+    },
+    {
       "sdk_method": "CreatePayout",
       "http": "POST",
       "path": "/api/v1/payouts",

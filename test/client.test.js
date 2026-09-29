@@ -393,6 +393,75 @@ test('submitPaymentTradeNo throws on missing parameters', async () => {
   }
 });
 
+async function openCapturedBody() {
+  const opened = await p.openBodyEnvelope(
+    captured.body,
+    b64(BODY.platformBodyPublicKeyBase64),
+    b64(BODY.platformBodyPrivateKeyBase64),
+  );
+  return JSON.parse(opened.plaintext.toString('utf8'));
+}
+
+test('supplementPayment sends a signed, encrypted POST and decodes the payment order', async () => {
+  for (const [locator, expected] of [
+    [{ orderNo: ' P1 ' }, { orderNo: 'P1', tradeNo: '123456789012' }],
+    [{ merchantOrderNo: 'M1' }, { merchantOrderNo: 'M1', tradeNo: '123456789012' }],
+  ]) {
+    nextResponse = {
+      body: { code: 200, msg: 'OK', data: { orderNo: 'P1', merchantOrderNo: 'M1', status: 'PROCESSING' } },
+    };
+    const key = p.newNonce();
+    const order = await makeClient().supplementPayment(
+      { ...locator, tradeNo: ' 123456789012 ' },
+      { idempotencyKey: key },
+    );
+    assert.equal(order.orderNo, 'P1');
+    assert.equal(order.status, sdk.STATUS_PROCESSING);
+
+    const h = captured.headers;
+    assert.equal(captured.method, 'POST');
+    assert.equal(captured.path, '/api/v1/payments/trade-no');
+    assert.equal(h['content-encryption'], p.CONTENT_ENCRYPTION);
+    assert.equal(h['idempotency-key'], key);
+    assert.ok(h.signature.startsWith('merchant=:'));
+    assert.equal(h['content-digest'], p.contentDigestSha256(captured.body));
+    assert.deepEqual(await openCapturedBody(), expected);
+  }
+});
+
+test('supplementPayment rejects a missing tradeNo or an ambiguous locator before sending', async () => {
+  const c = makeClient();
+  for (const req of [
+    { orderNo: 'P1', tradeNo: ' ' },
+    { orderNo: 'P1' },
+    { tradeNo: 'UTR' },
+    { orderNo: ' ', merchantOrderNo: '', tradeNo: 'UTR' },
+    { orderNo: 'P1', merchantOrderNo: 'M1', tradeNo: 'UTR' },
+  ]) {
+    captured = {};
+    await assert.rejects(() => c.supplementPayment(req), sdk.RequestError);
+    assert.deepEqual(captured, {});
+  }
+});
+
+test('supplementPayment surfaces a channel refusal as APIError', async () => {
+  nextResponse = {
+    status: 422,
+    body: { code: 422, msg: 'CHANNEL_ERROR', data: { message: 'reference not accepted' }, traceId: 't1' },
+  };
+  await assert.rejects(
+    () => makeClient().supplementPayment({ orderNo: 'P1', tradeNo: 'UTR' }),
+    (err) => {
+      assert.ok(err instanceof sdk.APIError);
+      assert.equal(err.httpStatus, 422);
+      assert.equal(err.code, 422);
+      assert.equal(err.msg, sdk.MSG.CHANNEL_ERROR);
+      assert.equal(err.apiMessage, 'reference not accepted');
+      return true;
+    },
+  );
+});
+
 test('addPaymentExtraInfo omits optional fields instead of sending empty values', async () => {
   nextResponse = {
     body: { code: 200, msg: 'OK', data: { status: 1, orderStatus: 'PENDING', paymentUrl: 'https://h5.example/p/1' } },
@@ -618,8 +687,8 @@ test('ARS payout preserves optional nullable addresses and rejects other types',
   nextResponse = {};
   const client = makeClient();
   const blocked = makeClient({ fetchImpl: async () => { assert.fail('invalid recipient reached transport'); } });
-  for (const accountType of ['CBU', 'CVU']) {
-    const recipient = { ...extra, accountType };
+  for (const accountType of ['CBU', 'CVU', 'ALIAS']) {
+    const recipient = { ...extra, accountType, accountNo: accountType === 'ALIAS' ? 'Mi.Empresa.CBU' : extra.accountNo };
     for (const addressFields of [{}, { address: null }, { address: '' }, { address: ' Av Example 123 ' }]) {
       const input = request({ ...recipient, ...addressFields });
       const expected = structuredClone(input);

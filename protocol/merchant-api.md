@@ -7,16 +7,17 @@
 | 1 | POST | `/api/v1/payments` | ✓ | ✓ | create pay-in |
 | 2 | GET | `/api/v1/payments?orderNo=…` | ✓ | — (no body) | query pay-in by order no |
 | 3 | GET | `/api/v1/payments?merchantOrderNo=…` | ✓ | — | query pay-in by merchant order no |
-| 4 | POST | `/api/v1/payouts` | ✓ | ✓ | create pay-out |
-| 5 | GET | `/api/v1/payouts?orderNo=…` / `merchantOrderNo=…` | ✓ | — | query pay-out |
-| 6 | GET | `/api/v1/payouts/{orderNo}/receipt` | ✓ | — | pay-out receipt |
-| 7 | GET | `/api/v1/balances?currency=…` | ✓ | — | merchant balances |
-| 8 | GET | `/api/v1/usd-rates?currency=…&payMethod=…` | ✓ | — | USD rate |
-| 9 | GET | `/api/v1/payment/checkout?orderNo=…` | ✗ | ✗ | hosted-checkout status (public, unsigned) |
-| 10 | POST | `/api/v1/payment/submitTradeNo` | ✗ | ✗ | payer reports the upstream trade number (UTR) |
-| 11 | POST | `/api/v1/payment/addExtraInfo` | ✗ | ✗ | payer supplies details for a create-first order |
+| 4 | POST | `/api/v1/payments/trade-no` | ✓ | ✓ | merchant submits the payer's transfer reference (UTR) for a PROCESSING pay-in |
+| 5 | POST | `/api/v1/payouts` | ✓ | ✓ | create pay-out |
+| 6 | GET | `/api/v1/payouts?orderNo=…` / `merchantOrderNo=…` | ✓ | — | query pay-out |
+| 7 | GET | `/api/v1/payouts/{orderNo}/receipt` | ✓ | — | pay-out receipt |
+| 8 | GET | `/api/v1/balances?currency=…` | ✓ | — | merchant balances |
+| 9 | GET | `/api/v1/usd-rates?currency=…&payMethod=…` | ✓ | — | USD rate |
+| 10 | GET | `/api/v1/payment/checkout?orderNo=…` | ✗ | ✗ | hosted-checkout status (public, unsigned) |
+| 11 | POST | `/api/v1/payment/submitTradeNo` | ✗ | ✗ | payer reports the upstream trade number (UTR) |
+| 12 | POST | `/api/v1/payment/addExtraInfo` | ✗ | ✗ | payer supplies details for a create-first order |
 
-Endpoints 9–11 form the **hosted-checkout group**: the merchant's H5 page calls
+Endpoints 10–12 form the **hosted-checkout group**: the merchant's H5 page calls
 them directly and holds no merchant private key, so they carry no signature and
 no body encryption. See [Hosted-checkout group](#hosted-checkout-group).
 
@@ -81,7 +82,7 @@ see [webhook.md](./webhook.md).
 
 ## Hosted-checkout group
 
-Endpoints 9–11 are served by the gateway without the signature interceptor, so a
+Endpoints 10–12 are served by the gateway without the signature interceptor, so a
 client may call them with only a `baseUrl`. They exist for the merchant's own
 checkout page; a merchant backend may also call them, for reconciliation or to
 complete an order on the payer's behalf.
@@ -124,6 +125,25 @@ API's own status strings; see [statuses](./data/statuses.json).
 `addExtraInfo` completes a "create first, fill in later" order: the merchant may
 create the payment without payer details, the order waits, and this call is what
 triggers the real upstream order. `paymentUrl` comes back once that happened.
+
+## Supplementing a pay-in
+
+`POST /api/v1/payments/trade-no` is the signed, merchant-side counterpart of
+`submitTradeNo`: the merchant collects the payer's transfer reference in its own
+page and submits it for a pay-in that is still `PROCESSING`.
+
+```jsonc
+// POST /api/v1/payments/trade-no
+{ "orderNo": "P2026…", "tradeNo": "412345678901" }            // or "merchantOrderNo" instead of "orderNo"
+```
+
+Exactly one of `orderNo` / `merchantOrderNo` is required, and `tradeNo` is
+required; the format of `tradeNo` is validated by the platform per currency
+(India UPI: 12 digits). The response is the same `PaymentOrder` as a query.
+A success only means the channel accepted the reference; the final status still
+arrives by webhook or query. `CHANNEL_ERROR` (HTTP 422) means the channel did not
+accept it and the order stays `PROCESSING`; `IDEMPOTENCY_CONFLICT` (409) means
+the order is no longer `PROCESSING`.
 
 ## Client-side validation
 

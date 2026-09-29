@@ -2,6 +2,18 @@
 
 Versions follow SemVer. Tags are `vX.Y.Z` on this repository.
 
+## v0.3.0 — 2026-09-29
+
+- Added `supplementPayment` (`POST /api/v1/payments/trade-no`): submits the payer's transfer
+  reference for a payment order that is still `PROCESSING`, identified by exactly one
+  of order number or merchant order number. Signed and encrypted like payment
+  creation, resolving with the payment order; the final status still arrives by webhook or query.
+- `ARS` payouts accept `ALIAS` as a third `accountType` next to `CBU` and `CVU`;
+  `accountNo` then carries the alias (for example `miempresa.cbu`) instead of a digit
+  string. No validation rule changed — `accountNo` and `accountType` were already
+  required for every `ARS` payout, and the rules constrain which fields are present,
+  not their values. Confirm `ALIAS` availability with the platform before using it.
+
 ## v0.2.0 — 2026-09-25
 
 - Support payout `REFUNDED` results with `refundNo`, `refundAmount`, and `refundTime`; payment statuses are unchanged.
