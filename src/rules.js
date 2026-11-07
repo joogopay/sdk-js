@@ -2,6 +2,8 @@
 //
 // An empty codes list means the gateway has no allowlist for that currency; the SDK does not reject on the method code there.
 
+export const AGGREGATE_PAYMENT_CODE = 'ALL';
+
 // Top-level create-order field rules, from protocol/data/request-rules.json.
 export const CREATE_REQUIRED_TEXT_FIELDS = ['merchantOrderNo', 'currency'];
 export const AMOUNT_PATTERN = new RegExp('^(0|[1-9][0-9]{0,15})(\\.[0-9]{1,2})?$');

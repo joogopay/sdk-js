@@ -454,6 +454,13 @@
       "extra_field": "inUpi",
       "payin": true,
       "payout": true
+    },
+    {
+      "name": "Aggregate",
+      "value": "ALL",
+      "extra_field": null,
+      "payin": true,
+      "payout": false
     }
   ]
 }

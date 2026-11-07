@@ -1,0 +1,178 @@
+[
+  {
+    "name": "payment-BRL",
+    "direction": "payment",
+    "currency": "BRL",
+    "method": {
+      "code": "ALL"
+    },
+    "valid": true
+  },
+  {
+    "name": "payment-COP",
+    "direction": "payment",
+    "currency": "COP",
+    "method": {
+      "code": "ALL"
+    },
+    "valid": true
+  },
+  {
+    "name": "payment-MXN",
+    "direction": "payment",
+    "currency": "MXN",
+    "method": {
+      "code": "ALL"
+    },
+    "valid": true
+  },
+  {
+    "name": "payment-PKR",
+    "direction": "payment",
+    "currency": "PKR",
+    "method": {
+      "code": "ALL"
+    },
+    "valid": true
+  },
+  {
+    "name": "payment-PHP",
+    "direction": "payment",
+    "currency": "PHP",
+    "method": {
+      "code": "ALL"
+    },
+    "valid": true
+  },
+  {
+    "name": "payment-IDR",
+    "direction": "payment",
+    "currency": "IDR",
+    "method": {
+      "code": "ALL"
+    },
+    "valid": true
+  },
+  {
+    "name": "payment-INR",
+    "direction": "payment",
+    "currency": "INR",
+    "method": {
+      "code": "ALL"
+    },
+    "valid": true
+  },
+  {
+    "name": "payment-BDT",
+    "direction": "payment",
+    "currency": "BDT",
+    "method": {
+      "code": "ALL"
+    },
+    "valid": true
+  },
+  {
+    "name": "payment-TRY",
+    "direction": "payment",
+    "currency": "TRY",
+    "method": {
+      "code": "ALL"
+    },
+    "valid": true
+  },
+  {
+    "name": "payment-ZZZ",
+    "direction": "payment",
+    "currency": "ZZZ",
+    "method": {
+      "code": "ALL"
+    },
+    "valid": true
+  },
+  {
+    "name": "payout-BRL",
+    "direction": "payout",
+    "currency": "BRL",
+    "method": {
+      "code": "ALL"
+    },
+    "valid": false
+  },
+  {
+    "name": "payout-ZZZ",
+    "direction": "payout",
+    "currency": "ZZZ",
+    "method": {
+      "code": "ALL"
+    },
+    "valid": false
+  },
+  {
+    "name": "payload-pix",
+    "direction": "payment",
+    "currency": "BRL",
+    "method": {
+      "code": "ALL",
+      "pix": {}
+    },
+    "valid": false
+  },
+  {
+    "name": "payload-pse",
+    "direction": "payment",
+    "currency": "BRL",
+    "method": {
+      "code": "ALL",
+      "pse": {
+        "customerName": "Test"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "payload-unknown",
+    "direction": "payment",
+    "currency": "BRL",
+    "method": {
+      "code": "ALL",
+      "unknown": {}
+    },
+    "valid": false
+  },
+  {
+    "name": "ordinary-required-IDR",
+    "direction": "payment",
+    "currency": "IDR",
+    "method": {
+      "code": "ID_QRIS"
+    },
+    "valid": false
+  },
+  {
+    "name": "ordinary-required-INR",
+    "direction": "payment",
+    "currency": "INR",
+    "method": {
+      "code": "IN_UPI"
+    },
+    "valid": false
+  },
+  {
+    "name": "ordinary-required-BDT",
+    "direction": "payment",
+    "currency": "BDT",
+    "method": {
+      "code": "BD_BKASH"
+    },
+    "valid": false
+  },
+  {
+    "name": "currency-ALL",
+    "direction": "payment",
+    "currency": "ALL",
+    "method": {
+      "code": "ALL"
+    },
+    "valid": false
+  }
+]

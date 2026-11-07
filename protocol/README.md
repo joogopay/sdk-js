@@ -9,6 +9,7 @@ English | [简体中文](./README-cn.md)
 
 | File | Purpose |
 |---|---|
+| [direct-integration.md](./direct-integration.md) | SDK-optional integration, runtime requirements and troubleshooting |
 | [merchant-api.md](./merchant-api.md) | endpoint overview and SDK design rules |
 | [signature.md](./signature.md) | Ed25519 / RFC 9421 request signing |
 | [body-encryption.md](./body-encryption.md) | X25519 sealed-box body envelope |

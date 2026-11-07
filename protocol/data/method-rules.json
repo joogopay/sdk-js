@@ -187,7 +187,9 @@
           "phone"
         ],
         "optionalNullableStringsByMethod": {
-          "BANK_TRANSFER": ["address"]
+          "BANK_TRANSFER": [
+            "address"
+          ]
         }
       },
       "BDT": {
@@ -398,5 +400,11 @@
         ]
       }
     }
+  },
+  "aggregateMode": {
+    "code": "ALL",
+    "direction": "payment",
+    "codeOnly": true,
+    "skipMethodRequired": true
   }
 }

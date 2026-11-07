@@ -12,11 +12,19 @@ merchant holds the private key; the platform holds the public key.
 | `Content-Type` | write | `application/json` |
 | `Content-Encryption` | write | `sealedbox-v1-x25519-xsalsa20poly1305` |
 | `Content-Digest` | write | `sha-256=:<base64(sha256(wire-body))>:` (RFC 9530) |
-| `Idempotency-Key` | write | UUID v4, fresh per request; carried for tracing, never used for deduplication |
+| `Idempotency-Key` | write | lowercase, hyphenated UUID v4, fresh per request; carried for tracing, never used for deduplication |
 | `Signature-Input` | write, read | `merchant=(<components>);created=…;expires=…;nonce="…";alg="ed25519"` |
 | `Signature` | write, read | `merchant=:<base64(ed25519-signature)>:` |
 
 `Content-Encoding` must be absent or `identity`.
+
+## Strict wire rules
+
+- `Content-Type` must be exactly `application/json`, without `charset` or other parameters. `Content-Encryption` must equal the algorithm above. Required signed headers must have one value; reject duplicate values.
+- POST requests have no query string. GET requests have no body and omit write-only content headers. Preserve the final encoded path and raw query used for signing.
+- `nonce` and `Idempotency-Key` are 36-character lowercase, hyphenated UUID v4 values: version digit `4`, variant digit `8`, `9`, `a` or `b`. Uppercase hexadecimal is rejected.
+- Use standard Base64 where specified, UTF-8 for the signature base, LF between its lines and no trailing LF. Digest the final envelope bytes, not the business JSON.
+- Generate fresh timestamps and nonce on every HTTP attempt. Keep the business `merchantOrderNo` when recovering an existing order.
 
 ## Covered components
 
@@ -41,7 +49,7 @@ The gateway accepts exactly these component sets and no other. `@query` is
 |---|---|
 | `created` | Unix seconds at signing time |
 | `expires` | `created + 300`; the accepted lifetime is at most 300 s |
-| `nonce` | UUID v4, regenerated for every HTTP request (replay protection) |
+| `nonce` | lowercase, hyphenated UUID v4, regenerated for every HTTP request (replay protection) |
 | `alg` | `ed25519` |
 
 ## Signature base

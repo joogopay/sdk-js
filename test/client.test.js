@@ -265,7 +265,32 @@ test('parses a payment webhook', async () => {
   assert.equal(hook.amount, '100.50');
   assert.equal(hook.paidAmount, '100.50');
   assert.equal(hook.payer, undefined);
+  assert.equal(hook.paymentMethod, undefined);
 });
+
+for (const [file, method, status] of [
+  ['004-payment-method.json', 'PSE', 'SUCCEEDED'],
+  ['005-payment-method-unselected.json', 'ALL', 'EXPIRED'],
+]) {
+  test(`signed payment method: ${method}`, async () => {
+    const vector = load(`webhook/${file}`);
+    const client = makeClient({
+      now: () => 1787803300,
+      platformWebhookPublicKeys: { [vector.key.platformWebhookKeyId]: vector.key.platformWebhookPublicKeyBase64 },
+    });
+    const args = { ...vector.input, headers: vector.headers, body: Buffer.from(vector.body, 'utf8') };
+    const hook = await client.parsePaymentWebhook(args);
+    assert.equal(hook.paymentMethod, method);
+    assert.equal(hook.status, status);
+    for (const refreshDigest of [false, true]) {
+      const body = Buffer.from(vector.body.replace(`"paymentMethod":"${method}"`, '"paymentMethod":"NEQUI"'), 'utf8');
+      const headers = { ...vector.headers };
+      if (refreshDigest) headers['Content-Digest'] = p.contentDigestSha256(body);
+      await assert.rejects(() => client.parsePaymentWebhook({ ...args, headers, body }),
+        refreshDigest ? p.InvalidSignatureError : sdk.WebhookError);
+    }
+  });
+}
 
 test('parses channel-reported payer in a signed payment webhook', async () => {
   const vector = load('webhook/002-payment-payer.json');
@@ -310,6 +335,78 @@ for (const field of ['name', 'documentNumber']) {
       }), refreshDigest ? p.InvalidSignatureError : sdk.WebhookError);
     });
   }
+}
+
+for (const [name, receiver] of [
+  ['absent', undefined],
+  ['null', null],
+  ['empty', {}],
+  ['name only', { name: 'João Silva' }],
+  ['document only', { documentNumber: '01234567890' }],
+  ['complete', {
+    name: 'Maria Silva', documentType: 'CPF', documentNumber: '01234567890',
+    keyType: 'PIX', key: 'pix-key', bankCode: '00000000', bankName: 'Banco do Brasil',
+  }],
+]) {
+  test(`payout webhook preserves optional receiver and sender: ${name}`, async () => {
+    const sender = name === 'complete' ? {
+      name: 'Sender Company', documentType: 'CNPJ', documentNumber: '01234567000189',
+      bankCode: '00000000', bankName: 'Source Bank', bankBranch: '0001',
+      accountNumber: '000123', accountSuffix: '9',
+    } : undefined;
+    const payload = {
+      eventId: HOOK.headers['Webhook-Event-Id'], orderType: 'PAYOUT',
+      orderNo: 'PO1', merchantOrderNo: 'M1', status: 'SUCCEEDED',
+      currency: 'BRL', amount: '10.00', channelTradeNo: 'E2E1', receiver, sender,
+    };
+    const body = Buffer.from(JSON.stringify(payload));
+    const headers = { ...HOOK.headers, 'Content-Digest': p.contentDigestSha256(body) };
+    const params = p.parsePlatformSignatureInput(headers['Signature-Input']);
+    const args = { method: 'POST', path: '/webhook/payouts', rawQuery: '', headers, body };
+    headers.Signature = await p.signEd25519(
+      b64(SIG.key.merchantPrivateKeyBase64), p.SIGNATURE_LABEL_PLATFORM,
+      p.signatureBase(params, args),
+    );
+    const client = makeClient({
+      now: () => 1787803300,
+      platformWebhookPublicKeys: {
+        [HOOK.key.platformWebhookKeyId]: SIG.key.merchantPublicKeyBase64,
+      },
+    });
+    const hook = await client.parsePayoutWebhook(args);
+    assert.deepEqual(hook.receiver, receiver);
+    assert.deepEqual(hook.sender, sender);
+    assert.equal(Object.hasOwn(hook, 'receiver'), receiver !== undefined);
+    assert.equal(hook.amount, '10.00');
+    assert.equal(hook.status, 'SUCCEEDED');
+    assert.equal(hook.channelTradeNo, 'E2E1');
+
+    if (sender) {
+      const tampered = Buffer.from(JSON.stringify({ ...payload, sender: { ...sender, accountNumber: '999123' } }));
+      for (const refreshDigest of [false, true]) {
+        const tamperedHeaders = { ...headers };
+        if (refreshDigest) tamperedHeaders['Content-Digest'] = p.contentDigestSha256(tampered);
+        await assert.rejects(
+          () => client.parsePayoutWebhook({ ...args, headers: tamperedHeaders, body: tampered }),
+          refreshDigest ? p.InvalidSignatureError : sdk.WebhookError,
+        );
+      }
+    }
+
+    if (receiver?.documentNumber) {
+      const tampered = Buffer.from(JSON.stringify({
+        ...payload, receiver: { ...receiver, documentNumber: '11234567890' },
+      }));
+      for (const refreshDigest of [false, true]) {
+        const tamperedHeaders = { ...headers };
+        if (refreshDigest) tamperedHeaders['Content-Digest'] = p.contentDigestSha256(tampered);
+        await assert.rejects(
+          () => client.parsePayoutWebhook({ ...args, headers: tamperedHeaders, body: tampered }),
+          refreshDigest ? p.InvalidSignatureError : sdk.WebhookError,
+        );
+      }
+    }
+  });
 }
 
 test('webhook rejects an unknown keyId', async () => {

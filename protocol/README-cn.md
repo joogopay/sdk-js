@@ -29,3 +29,5 @@
 
 签名和 webhook 向量是确定性的(固定密钥、`created`、`nonce`)。sealed box 密文非确定性,
 所以向量给出密钥对、明文和一个样例 envelope,一致性判定为 open(envelope) == 明文。
+
+不使用 SDK 时，参见[直接接入指南](./direct-integration.md)。

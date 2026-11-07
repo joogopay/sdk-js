@@ -4,7 +4,7 @@
 
 import { RequestError } from './errors.js';
 import {
-  AMOUNT_PATTERN, CREATE_REQUIRED_TEXT_FIELDS, METHOD_EXTRA_FIELDS,
+  AGGREGATE_PAYMENT_CODE, AMOUNT_PATTERN, CREATE_REQUIRED_TEXT_FIELDS, METHOD_EXTRA_FIELDS,
   PAYMENT_METHOD_RULES, PAYOUT_METHOD_RULES, WEBHOOK_URL_PREFIX,
 } from './rules.js';
 
@@ -75,6 +75,12 @@ function validateMethod(currency, method, rules) {
   const m = method ?? {};
   const code = String(m.code ?? '').trim();
   if (!code) throw new RequestError('sdk: method code is required');
+  if (code === AGGREGATE_PAYMENT_CODE) {
+    if (rules !== PAYMENT_METHOD_RULES || !String(currency || '').trim() || String(currency).trim().toUpperCase() === AGGREGATE_PAYMENT_CODE || Object.keys(m).some(key => key !== 'code')) {
+      throw new RequestError('sdk: aggregate is a code-only payment mode with a specific currency');
+    }
+    return;
+  }
 
   const present = Object.keys(m)
     .filter((k) => k !== 'code' && m[k] !== null && m[k] !== undefined)
